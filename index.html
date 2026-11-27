@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>林歆凌個人網站</title>
+<meta name="description" content="林歆凌，成功大學土木工程研究所結構工程組碩士生。碩士論文以神經網路預測多孔板裂縫演化，大學專題做既有校舍耐震能力詳細評估。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE   everyday, eager and practical: a structural engineering master's student introducing herself to employers
+   IDEA    a construction drawing sheet: double-line frame, title block, section hatching under every heading
+   PICTURE the student in hard hat and vest in front of a bridge elevation; thesis and project each drawn as an elevation
+   COLOUR  white drawing paper, concrete-grey bands, drawing-blue linework, safety yellow accents, blue closing band
+   TYPE    Noto Sans TC 900 headings + Noto Sans TC text; Barlow Condensed (highway-sign lettering) for dimensions and dates
+   LAYOUT  laptop: concrete band, framed sheet with drawing left, cover and title block right; phone: drawing, cover, title block in two columns */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#121417);
+--ink:light-dark(#1b1d1f,#ecebe7);
+--muted:light-dark(#585c61,#a9adb2);
+--line:light-dark(#d3d0c9,#34383d);
+--con:light-dark(#e4e0d8,#1c1f23);
+--paper:light-dark(#ffffff,#16191c);
+--grid:light-dark(rgba(29,95,191,.10),rgba(127,176,255,.09));
+--blue:light-dark(#1d5fbf,#86b4ff);
+--focus:light-dark(#1d5fbf,#ffc20e);
+--yel:#ffc20e;--yel-d:#e0a400;--yel-l:#ffd95c;
+--vest:#ff7a1a;--vest-d:#d95f0a;--skin:#f0c6a2;--skin-d:#d9a582;--skin-l:#f8dcc6;--hair:#22252b;
+--num:"Barlow Condensed","Noto Sans TC",sans-serif;
+--text:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 var(--text);overflow-x:clip}
+svg{max-width:100%}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+h1,h2,h3{line-height:1.15;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h2,h1{font-weight:900}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(36px,5vw,72px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.con{background:var(--con)}
+.gridpaper{background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px}
+svg text{font:600 16px var(--num);fill:var(--blue);paint-order:stroke;stroke:var(--paper);stroke-width:4px}
+
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:6px max(5vw,16px);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .me{flex:none;font:900 19px/1 var(--text);color:var(--ink);text-decoration:none;padding:12px 0}
+.top nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.top nav a{flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:15px}
+.top nav a:hover{background:var(--con);color:var(--ink)}
+
+.sheet{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);margin:7px;background:var(--paper);border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px}
+.pic{position:relative;min-height:440px;border-right:1px solid var(--ink)}
+.pic svg{position:absolute;inset:0;width:100%;height:100%}
+.photo{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);height:min(74%,340px);width:auto;max-width:80%;aspect-ratio:575/764;object-fit:cover;background:#fff;border:2px solid var(--ink);box-shadow:10px 10px 0 var(--yel)}
+.cover{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:18px}
+.cover h1{font-size:clamp(48px,7.5vw,76px);line-height:1.05}
+.aka{margin:-12px 0 0;font-size:16px;color:var(--muted)}
+.role{margin:-10px 0 0;font-size:20px;font-weight:700;color:var(--blue)}
+.intro{margin:0;font-size:19px;max-width:30em}
+.tb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;border:1.5px solid var(--ink)}
+.tb div{padding:8px 12px 10px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.tb div:nth-child(3n){border-right:0}
+.tb div:nth-last-child(-n+3){border-bottom:0}
+.tb dt{font-size:13px;color:var(--muted)}
+.tb dd{margin:0;font-weight:700;font-size:16px;line-height:1.45}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:4px;font:700 16px/1 var(--text);text-decoration:none;cursor:pointer;border:2px solid var(--ink);background:var(--yel);color:#1b1d1f}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:hover{filter:brightness(1.05)}
+.note{margin:0;font-size:14px;color:var(--muted)}
+.note:empty{display:none}
+
+.head{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.head h2{font-size:clamp(28px,4vw,40px)}
+.head::after{content:"";height:12px;border-top:2px solid var(--ink);background:repeating-linear-gradient(-45deg,var(--ink) 0 1.2px,transparent 1.2px 8px);opacity:.8}
+
+.beats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 56px}
+.beats h3{font-size:22px;font-weight:700;margin-bottom:8px}
+.beats p{margin:0;max-width:34em}
+
+.projects{display:block}
+.kind{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.kind h3{font-size:clamp(24px,3vw,30px);font-weight:900}
+.kind span{font-size:14px;font-weight:700;padding:3px 12px;border:1.5px solid var(--ink);border-radius:999px;background:var(--paper)}
+.proj+.kind{margin-top:64px}
+.brief{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr)}
+.brief-pic{display:flex;align-items:center;justify-content:center;padding:20px;border-right:1px solid var(--ink)}
+.brief-pic .gimg{max-width:360px}
+.brief-pic .gimg img{max-height:320px}
+.lead{margin:0 0 18px;font-size:17px;max-width:46em}
+.brief .stats{margin-bottom:0;grid-template-columns:repeat(4,minmax(0,1fr))}
+details.more{border-top:1.5px solid var(--ink)}
+details.more>summary{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;min-height:56px;padding:12px clamp(22px,3vw,36px);background:var(--con);font-weight:700;cursor:pointer}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"";width:10px;height:10px;margin-right:2px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateY(-3px) rotate(45deg)}
+details.more[open]>summary::before{transform:translateY(2px) rotate(-135deg)}
+details.more>summary:hover{background:color-mix(in srgb,var(--con) 65%,var(--yel))}
+details.more>summary:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+details.more>summary small{font-weight:400;font-size:14px;color:var(--muted)}
+.m-close{display:none}
+details.more[open] .m-open{display:none}
+details.more[open] .m-close{display:inline}
+.proj{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:var(--paper);border:1.5px solid var(--ink)}
+.art{position:relative;min-height:280px;border-right:1px solid var(--ink)}
+.art svg{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px)}
+.pbody{padding:clamp(22px,3vw,36px)}
+.pbody h3{font-size:clamp(23px,2.8vw,28px);font-weight:900}
+.meta{margin:4px 0 18px;color:var(--muted);font-size:15px}
+.pdl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;margin:0;padding-top:14px;border-top:1px solid var(--line)}
+.pdl dt{font-weight:700;color:var(--muted);font-size:15px;padding-top:2px}
+.pdl dd{margin:0}
+.tbd{color:var(--muted)}
+.proj.wide{grid-template-columns:1fr}
+.proj.wide .art{min-height:0;border-right:0;border-bottom:1px solid var(--ink);padding:22px 20px 14px}
+.gtabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.gtabs button{min-height:44px;padding:0 16px;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper);color:var(--ink);font:700 15px/1 var(--text);cursor:pointer}
+.gtabs button[aria-selected=true]{background:var(--yel);color:#1b1d1f;border-color:#1b1d1f}
+.gfig{margin:0}
+.gfig[hidden]{display:none}
+.gimg{display:flex;justify-content:center;width:100%;padding:8px;background:#fff;border:1px solid var(--ink);cursor:zoom-in}
+.gimg img{display:block;max-width:100%;height:auto;max-height:520px;object-fit:contain}
+.gfig figcaption{margin-top:10px;font-size:15px;line-height:1.65;color:var(--muted);max-width:62em}
+.cap{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.ggrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.gitem{margin:0}
+.ggrid .gimg{height:clamp(200px,22vw,290px);align-items:center}
+.ggrid .gimg img{max-height:100%}
+.gitem figcaption{margin-top:6px;font-size:14px;line-height:1.5;color:var(--muted)}
+.ggrid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ggrid.g1{grid-template-columns:1fr}
+.ggrid.g1 .gimg{height:auto}
+.ggrid.g1 .gimg img{max-height:460px}
+.ggrid.tall .gimg{height:clamp(260px,30vw,420px)}
+.subt{margin:6px 0 0;font-size:19px;font-weight:700;color:var(--blue)}
+.flowwrap{margin:0 0 26px}
+.flowwrap h4{font-size:18px;font-weight:900;margin:0 0 10px}
+.flow{list-style:none;counter-reset:f;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0;padding:0}
+.flow li{counter-increment:f;padding:14px 16px 16px;border:1.5px solid var(--ink);background:var(--paper)}
+.flow li::before{content:counter(f);display:flex;align-items:center;justify-content:center;width:30px;height:30px;margin-bottom:8px;border-radius:50%;background:var(--yel);color:#1b1d1f;font:700 17px/1 var(--num)}
+.flow b{display:block;font-size:17px;margin-bottom:4px}
+.flow span{display:block;font-size:15px;line-height:1.6;color:var(--muted)}
+.gsum{margin:14px 0 0;font-size:15px;line-height:1.65;color:var(--muted);max-width:62em}
+dialog.lb{padding:0;border:0;width:96vw;max-width:96vw;max-height:92vh;background:var(--paper);color:var(--ink)}
+dialog.lb::backdrop{background:rgba(0,0,0,.72)}
+.lbbar{position:sticky;top:0;left:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+.lbbar span{font-weight:700}
+.lbbar button{min-height:44px;padding:0 18px;border:1.5px solid var(--ink);border-radius:4px;background:var(--yel);color:#1b1d1f;font:700 15px/1 var(--text);cursor:pointer}
+.lbscroll{overflow:auto;max-height:calc(92vh - 62px);background:#fff}
+.lbscroll img{display:block;max-width:none;width:auto;height:auto;margin:0 auto}
+.en{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5em,1fr));margin:0 0 22px;padding:0;list-style:none;border-block:1px solid var(--line)}
+.stats li{padding:10px 12px 10px 0}
+.stats b{display:block;font:700 clamp(22px,2.6vw,30px)/1.15 var(--num);white-space:nowrap}
+.stats span{font-size:14px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px}
+.cols .pdl{padding-top:0;border-top:0}
+.pdl .chips{margin-top:2px}
+.panel{background:var(--con);padding:20px 22px;border:1px solid var(--line);align-self:start}
+.panel h4{font-size:18px;font-weight:900;margin:0 0 10px}
+.panel ul+h4{margin-top:20px}
+.finds{list-style:none;padding:0;margin:0}
+.finds li{position:relative;padding-left:22px}
+.finds li+li{margin-top:10px}
+.finds li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;background:var(--yel);border:1.5px solid var(--ink)}
+.finds.todo li::before{background:transparent}
+.finds small{display:block;margin-top:4px;font-size:14px;line-height:1.55;color:var(--muted)}
+
+.xp{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:0 48px}
+.when{font:600 26px/1.3 var(--num);white-space:nowrap;padding:22px 0;border-top:1px solid var(--line)}
+.what{padding:22px 0;border-top:1px solid var(--line)}
+.what h3{font-size:22px;font-weight:900}
+.org{margin:2px 0 0;color:var(--muted)}
+.what p.do{margin:8px 0 0}
+.what ul{margin:8px 0 0;padding-left:1.2em}
+.what li+li{margin-top:2px}
+
+
+.se{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:56px}
+.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.groups h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.chips li{padding:5px 12px;border:1px solid var(--ink);border-radius:3px;font-size:15px;background:var(--paper)}
+.certs{margin:0;padding:0;list-style:none;border-top:1.5px solid var(--ink)}
+.certs li{padding:12px 0;border-bottom:1px solid var(--line)}
+.certs b{display:block;font-weight:700}
+.certs small{font-size:14px;color:var(--muted)}
+
+.contact{background:#d6caf6;color:#1b1d1f;--ink:#1b1d1f;--focus:#1b1d1f}
+.contact .head h2{font-size:clamp(34px,5vw,52px)}
+.contact p{max-width:34em;margin:0 0 24px;font-size:18px}
+.mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-bottom:16px}
+.mail{font:700 clamp(20px,3vw,28px)/1.3 var(--text);overflow-wrap:anywhere}
+.contact .btn{background:#1b1d1f;color:#fff;border-color:#1b1d1f}
+.contact .links{display:flex;flex-wrap:wrap;gap:8px 24px}
+.contact .links a{color:#1b1d1f;display:inline-flex;min-height:44px;align-items:center;font-weight:700}
+footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px)}
+
+@media(max-width:900px){.brief .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.se,.grades,.cols{grid-template-columns:1fr;gap:40px}.cols{gap:28px}.beats{gap:28px 32px}}
+@media(max-width:700px){.brief{grid-template-columns:1fr}.brief-pic{border-right:0;border-bottom:1px solid var(--ink)}.sheet,.proj{grid-template-columns:1fr}.pic{min-height:320px;border-right:0;border-bottom:1px solid var(--ink)}.art{min-height:200px;border-right:0;border-bottom:1px solid var(--ink)}.beats,.groups{grid-template-columns:1fr}
+.tb{grid-template-columns:repeat(2,minmax(0,1fr))}.tb div:nth-child(3n){border-right:1px solid var(--ink)}.tb div:nth-child(2n){border-right:0}.tb div:nth-last-child(-n+3){border-bottom:1px solid var(--ink)}.tb div:nth-last-child(-n+2){border-bottom:0}}
+@media(max-width:600px){.ggrid,.ggrid.g3{grid-template-columns:1fr}.ggrid .gimg,.ggrid.tall .gimg{height:auto}.flow{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.proj.wide .art{padding:14px 12px 12px}.gtabs button{flex:1 1 auto;padding:0 10px}.pdl{grid-template-columns:1fr;gap:2px}.pdl dd{margin-bottom:12px}.xp{grid-template-columns:1fr}.when{font-size:21px;padding-bottom:0}.what{border-top:0;padding-top:4px}.top nav{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="me" href="#top">林歆凌</a>
+  <nav aria-label="頁面導覽">
+    <a href="#about">關於我</a><a href="#work">論文與專題</a><a href="#study">學歷</a><a href="#exp">經歷</a><a href="#skills">技能</a><a href="#certs">證照</a><a href="#contact">聯絡</a>
+  </nav>
+</header>
+
+<section class="band con" id="top">
+  <div class="wrap">
+    <div class="sheet">
+      <div class="pic gridpaper">
+        <svg viewBox="0 0 400 440" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+          <g fill="none" stroke="var(--blue)" stroke-width="2.5">
+            <rect x="-20" y="62" width="440" height="20"/>
+            <path d="M-20 82 H420" stroke-width="1"/>
+            <rect x="22" y="82" width="16" height="300"/><rect x="362" y="82" width="16" height="300"/>
+            <rect x="6" y="382" width="48" height="14"/><rect x="346" y="382" width="48" height="14"/>
+            <path d="M16 396 V440 M44 396 V440 M356 396 V440 M384 396 V440" stroke-dasharray="7 6" stroke-width="2"/>
+            <path d="M200 40 H370 M200 32 V48 M370 32 V48" stroke-width="1.5"/>
+          </g>
+          <path d="M-20 382 H420" stroke="var(--ink)" stroke-width="2"/>
+          <text x="285" y="30" text-anchor="middle">40.0 m</text>
+        </svg>
+        <img class="photo" src="photo.jpg" alt="林歆凌的大頭照" width="575" height="764">
+      </div>
+      <div class="cover">
+        <h1>林歆凌</h1>
+        <p class="aka">原名李梓菱</p>
+        <p class="role">成功大學土木工程研究所 結構工程組 碩士二年級</p>
+        <p class="intro">我的優點是有耐心、不怕麻煩、願意學習，也是一個好奇心滿滿的人，遇到不懂的地方會積極去詢問。</p>
+        <dl class="tb">
+          <div><dt>預計畢業</dt><dd>2027 年 6 月（碩士）</dd></div>
+          <div><dt>想找的職位</dt><dd>工程顧問公司的結構工程師</dd></div>
+          <div><dt>在學期間</dt><dd>可配合課表實習、工讀</dd></div>
+          <div><dt>希望地點</dt><dd>台南</dd></div>
+          <div><dt>駕照</dt><dd>普通小型車、普通重型機車</dd></div>
+          <div><dt>可到職</dt><dd>實習、工讀錄取後隨時</dd></div>
+        </dl>
+        <div class="actions">
+          <a class="btn" href="#work">看論文與專題</a>
+          <a class="btn ghost" href="#contact">寫信給我</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="about">
+  <div class="wrap">
+    <div class="head"><h2>關於我</h2></div>
+    <div class="beats">
+      <div>
+        <h3>成長背景</h3>
+        <p>我出生於嘉義市，家中有一位姊姊與一位哥哥，一家人感情緊密、互相扶持。媽媽常說：「自己選擇的路，就要自己負責。」因此家人從不阻止我追求想做的事，總是全力支持我的決定，也讓我養成為自己的選擇負責到底的個性。</p>
+      </div>
+      <div>
+        <h3>為什麼選擇結構</h3>
+        <p>我從小就對建築物如何被建造充滿好奇，也喜歡樂高這類動手實作的遊戲，所以高職選了嘉義高工建築科。學設計與繪圖時，我發現比起畫出好看的設計，我更想弄懂結構為什麼站得住、力是怎麼傳遞的，於是大學進入臺北科技大學土木工程系。之後我對從建築物到橋梁等各類結構都想深入了解，研究所便選擇了成功大學結構工程組。</p>
+      </div>
+      <div>
+        <h3>從零開始學程式</h3>
+        <p>碩士研究結合 COMSOL 相場法模擬與深度學習，訓練神經網路預測裂縫怎麼長（詳見下方「論文與專題」）。這項研究需要寫大量程式，而我原本完全沒有程式基礎。過程中雖然屢屢碰壁，但我耐心地把教授交付的任務一步步完成，現在能用 MATLAB 自動化批次模擬、用 PyTorch 訓練模型，並和老師透過 GitHub 往返審查程式，也培養出面對困難仍堅持到底的態度。</p>
+      </div>
+      <div>
+        <h3>我想做的事</h3>
+        <p>我希望畢業後加入工程顧問公司，專注在結構分析與耐震評估：建立模型、執行分析，再整理成清楚的計算書與報告。我也希望把研究中練到的數值模擬與程式自動化能力，用在處理大量案例、提升分析效率上。在學期間，我可以配合課表實習或工讀，提早累積實務經驗。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band con" id="work">
+  <div class="wrap">
+    <div class="head"><h2>論文與專題</h2></div>
+    <div class="projects">
+
+      <div class="kind"><h3>碩士論文</h3><span>進行中</span></div>
+      <article class="proj wide">
+        <div class="brief">
+          <div class="brief-pic gridpaper">
+            <button type="button" class="gimg" data-title="雙孔板的裂縫動畫"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫" width="300" height="330"></button>
+          </div>
+          <div class="pbody">
+            <h3>以 pGFINN 神經網路預測二維多孔板的裂縫演化</h3>
+            <p class="subt">結合 COMSOL 相場法模擬的 AI 替代模型</p>
+            <p class="en">Predicting Fracture Evolution in 2D Porous Plates with a GENERIC-Informed Neural Network (pGFINN): A Surrogate Model Trained on Phase-Field Simulations</p>
+            <p class="meta">成功大學土木工程研究所 結構工程組，題目暫定，預計 2027 年 6 月完成<br>指導教授：土木工程系 胡宣德 教授<br>共同指導教授：工程科學系 游濟華 教授</p>
+            <p class="lead">用 COMSOL 相場法模擬自建三組多孔板裂縫資料集（各 400 案），訓練 pGFINN 神經網路只看第一張圖，就自己推出整段裂縫怎麼長，目標是成為取代重複模擬的快速替代模型。</p>
+            <ul class="stats">
+              <li><b>3 × 400 案</b><span>自建的模擬資料集</span></li>
+              <li><b>23 步</b><span>網路自己往下推的步數</span></li>
+              <li><b>≈ 0.45</b><span>雙孔板測試組裂縫 IoU（3 個種子平均）</span></li>
+              <li><b>0.26 → 0.59</b><span>裂縫重疊度 IoU（缺口加孔板驗證組）</span></li>
+            </ul>
+          </div>
+        </div>
+        <details class="more">
+          <summary><span class="m-open">展開完整內容</span><span class="m-close">收合內容</span><small>研究流程、方法細節、目前發現與 5 組圖表</small></summary>
+        <div class="art gridpaper">
+          <div class="gtabs" role="tablist" aria-label="研究圖表">
+            <button type="button" role="tab" id="tab-setup" aria-controls="th-setup" aria-selected="true">模型設定</button>
+            <button type="button" role="tab" id="tab-data" aria-controls="th-data" aria-selected="false" tabindex="-1">資料集</button>
+            <button type="button" role="tab" id="tab-anim" aria-controls="th-anim" aria-selected="false" tabindex="-1">裂縫動畫</button>
+            <button type="button" role="tab" id="tab-force" aria-controls="th-force" aria-selected="false" tabindex="-1">拉力曲線</button>
+            <button type="button" role="tab" id="tab-compare" aria-controls="th-compare" aria-selected="false" tabindex="-1">預測與模擬對照</button>
+          </div>
+          <div class="gfig" id="th-setup" role="tabpanel" aria-labelledby="tab-setup">
+            <div class="ggrid">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="板子與邊界條件"><img src="fig-setup.png" alt="1 mm 方板、兩個孔，上緣往上拉，底邊滾支承，左下角鉸支承" width="476" height="581"></button>
+                <figcaption>板子與邊界條件：1 mm 方板、兩個孔（半徑 0.05–0.15 mm）。上方箭頭是往上拉（位移 0.013 mm × t），底邊小圓圈是滾支承（只擋上下），左下三角形是鉸支承。</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="AI 怎麼往下推"><img src="fig-rollout.png" alt="上排是 COMSOL 的 24 張圖，下排是 AI 只拿第 1 張、自己一步一步推到第 24 張" width="988" height="327"></button>
+                <figcaption>AI 怎麼往下推：上排是 COMSOL 的 24 張圖；下排是 AI 只拿第 1 張，自己一步一步推到第 24 張，再和上排逐張比較。</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="gfig" id="th-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+            <div class="ggrid">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="五孔板 10 種排法"><img src="fig-layouts.png" alt="五孔板資料集中 10 種隨機的孔洞排法" width="2015" height="853" loading="lazy"></button>
+                <figcaption>五孔板的 10 種排法：每格是一塊板，白圈是孔、數字是孔的編號；孔的位置和大小都是隨機產生的。</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="四種裂縫型態"><img src="fig-types.png" alt="缺口加一孔板的四種裂縫型態" width="1920" height="544" loading="lazy"></button>
+                <figcaption>缺口加一孔板的四種裂縫型態：(a) 孔先裂到邊緣；(b) 缺口 → 孔 → 邊緣；(c) 缺口直接裂到邊緣；(d) 孔先裂，載重進度 t = 1 時還沒斷開。</figcaption>
+              </figure>
+            </div>
+            <p class="gsum">三組資料集各 400 案：雙孔板、缺口加一孔板、五孔板。孔的大小和位置一變，裂縫的走法就完全不同，這正是網路要學會的事。</p>
+          </div>
+          <div class="gfig" id="th-anim" role="tabpanel" aria-labelledby="tab-anim" hidden>
+            <div class="ggrid g3">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="缺口加孔板的裂縫動畫"><img src="anim-notch.gif" alt="缺口加孔板的 COMSOL 裂縫成長動畫" width="300" height="330" loading="lazy"></button>
+                <figcaption>缺口加孔板：裂縫從缺口出發，被孔吸過去再從另一側穿出</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（一）"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫穿過大孔並延伸到小孔" width="300" height="330" loading="lazy"></button>
+                <figcaption>雙孔板：裂縫穿過大孔，再往右上延伸到小孔</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（二）"><img src="anim-two-b.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫只穿過上方的孔" width="300" height="330" loading="lazy"></button>
+                <figcaption>雙孔板：裂縫只穿過上方的孔，下方的孔沒有參與</figcaption>
+              </figure>
+            </div>
+            <p class="gsum">COMSOL 相場法模擬，藍色是完好、紅色是裂開，白色是孔。動畫下方的 t 是載重進度（上緣位移 = 0.013 mm × t），不是真實時間。</p>
+          </div>
+          <div class="gfig" id="th-force" role="tabpanel" aria-labelledby="tab-force" hidden>
+            <div class="ggrid g1">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="五孔板 10 案的拉力曲線"><img src="fig-force10.png" alt="五孔板 10 個案例的上緣拉力與載重進度曲線" width="2015" height="858" loading="lazy"></button>
+                <figcaption>五孔板 10 案的拉力曲線：橫軸是載重進度 t（上緣位移 = 0.013 mm × t，不是真實時間），縱軸是上緣拉力（kN／每公尺厚），紅色虛線是拉力最高的時刻。拉力先一路上升，到最高點後突然掉下去，就是板子裂開；有些案例掉一次就斷，有些分好幾段（第 6、9、10 案），代表裂縫是一段一段串過孔的。</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="第 8 案：裂縫與拉力對照"><img src="fig-sim.png" alt="五孔板第 8 案拉力最高點之後的 8 個時刻，與上緣拉力和裂開格子數的曲線" width="2145" height="1001" loading="lazy"></button>
+                <figcaption>單一案例（上圖的第 8 案）：拉力最高點之後的 8 個時刻與拉力曲線對照。裂縫先從孔 5 裂向右緣，再往左經過孔 3，最後貫穿到左緣，整個過程發生在載重進度 t = 0.559 到 0.569 之間。</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="gfig" id="th-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+            <div class="ggrid tall">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="雙孔板逐步推演（範例）"><img src="fig-twohole.png" alt="雙孔板第 1、12、14、18、23 步的 COMSOL 模擬、AI 預測與裂開格子疊圖" width="1297" height="909" loading="lazy"></button>
+                <figcaption>範例（example）：雙孔板中表現最好的一案，不代表平均結果。橫向是第 1、12、14、18、23 步；第一列是 COMSOL，第二列是 AI（隨機種子 42）自己往下推，第三列把裂開的格子疊在一起：灰色是兩邊都有、藍色是只有 COMSOL 有、紅色是只有 AI 有。AI 抓到裂縫從大孔兩側長出來、再接到小孔，但比 COMSOL 早一點開始長，畫得也比較寬。</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="缺口加孔板：最好、中間、最差"><img src="fig-pred.png" alt="第 23 步裂縫的 COMSOL 模擬、pGFINN 預測與疊圖，IoU 最好、中間、最差三個案例" width="1184" height="1216" loading="lazy"></button>
+                <figcaption>缺口加孔板驗證組第 23 步：左為 COMSOL、中為 pGFINN、右為疊圖（綠色是模擬較強、洋紅是預測較強、灰到白是一致）。由上到下是 IoU 最好（0.73）、中間（0.62）與最差（0.21）的案例；最差的案例裡，預測的裂縫被孔吸過去，和模擬走了不同邊。</figcaption>
+              </figure>
+            </div>
+          </div>
+          <p class="cap">點圖片可以放大查看細節。</p>
+        </div>
+        <div class="pbody">
+          <div class="flowwrap">
+            <h4>研究流程</h4>
+            <ol class="flow">
+              <li><b>建模與驗證</b><span>用 COMSOL 相場法建 1 mm 方板，做一維桿、缺口板基準題和網格收斂測試。</span></li>
+              <li><b>批次模擬建資料集</b><span>用 MATLAB 自動化，建了三組各 400 案，累計約 1,400 計算小時。</span></li>
+              <li><b>訓練 AI</b><span>用 PyTorch 實作 pGFINN，從第一張圖自己往下推 23 步。</span></li>
+              <li><b>和模擬比對</b><span>看裂縫重疊度（IoU），並和「照抄第一張圖」比較。</span></li>
+            </ol>
+          </div>
+          <div class="cols">
+            <dl class="pdl">
+              <dt>研究問題</dt><dd>多孔材料裂開時，裂縫會被孔洞吸引、轉彎，把孔串起來，路徑隨孔的大小和位置而變。相場法有限元素模擬算得準，但每換一種孔洞配置就要重算一次，一案約 0.5～1.5 小時。</dd>
+              <dt>研究目標</dt><dd>訓練神經網路，只給孔洞配置和初始狀態，就預測整段裂縫怎麼長；目標是對沒看過的孔洞配置也能預測，當作快速的替代模型。</dd>
+              <dt>應用目標</dt><dd>板子或構件開孔會讓裂縫改走路徑；如果能快速預測裂縫怎麼走，就能更快比較不同的開孔配置。</dd>
+              <dt>數值模擬</dt><dd>用 COMSOL Multiphysics 的相場法斷裂模型，1 mm 方板，上緣以位移 0.013 mm × t 往上拉到斷裂（t 是載重進度，不是真實時間），底邊為滾支承、左下角為鉸支承。用 MATLAB LiveLink 寫批次流程，自動建模、求解、輸出，多條同時跑，失敗的自動重算。</dd>
+              <dt>模型驗證</dt><dd>一維桿、缺口板兩個基準題，加上網格與時間步收斂測試。</dd>
+              <dt>資料集</dt><dd>自己建了三組、各 400 案：雙孔板、缺口加一孔板、五孔板。五孔板另外存了位移、應變、應力場，並依孔洞配置分層切分訓練、驗證、測試組。</dd>
+              <dt>AI 模型</dt><dd>用 Python／PyTorch 實作指導團隊的 pGFINN（以 GENERIC 熱力學架構為基礎的神經網路），從第一張圖自己往下推 23 步，並以 U-Net 和「照抄前一步」作為對照。另外把前人的 TensorFlow 模型移植到 PyTorch，逐項比對結果。</dd>
+              <dt>使用工具</dt><dd><ul class="chips"><li>COMSOL 6.0</li><li>MATLAB</li><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li>Git／GitHub</li></ul><span class="org">和指導老師用 GitHub 的 PR、Issue 往返審查</span></dd>
+            </dl>
+            <div class="panel">
+              <h4>目前發現</h4>
+              <ul class="finds">
+                <li>pGFINN 能從第一張圖自己推出整段裂縫的大致路徑：雙孔板測試組裂縫重疊度（IoU）約 0.45，缺口加孔板驗證組從原始設定的 0.26 提高到 0.59。<small>雙孔板 400 案全部算完，測試組 40 案在 3 個隨機種子下分別為 0.451、0.461、0.436，驗證組 0.42～0.44；對照組「照抄第一張圖」為 0。缺口加孔板的 0.59 為 3 個隨機種子的平均。</small></li>
+                <li>訓練時把資料鏡射翻轉，雙孔板裂縫重疊度提高約 0.07；缺口板則沒有明顯效果。<small>其他設定不變、只多加鏡射：驗證組 0.32 → 0.39、測試組 0.33 → 0.40。這組比較只練了一個隨機種子。</small></li>
+                <li>讓網路直接輸出應力、應變：在單一夾雜板的資料上，改成預測「上一步＋變化量」後，7 個分量有 6 個勝過「照抄前一步」，換隨機種子也能重現。</li>
+              </ul>
+              <h4>接下來要解決</h4>
+              <ul class="finds todo">
+                <li>預測的裂縫偏寬、偏淡</li>
+                <li>部分案例的裂縫走錯邊</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        </details>
+      </article>
+
+      <div class="kind"><h3>大學專題</h3><span>已完成</span></div>
+      <article class="proj wide">
+        <div class="brief">
+          <div class="brief-pic gridpaper">
+            <button type="button" class="gimg" data-title="ETABS 3D 結構模型"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" width="671" height="433"></button>
+          </div>
+          <div class="pbody">
+            <h3>既有校舍的結構建模與耐震能力詳細評估</h3>
+            <p class="meta">臺北科技大學土木工程系，指導教授：宋裕祺 講座教授，2024 – 2025</p>
+            <p class="lead">以瑞埔國小標準試體校舍（兩層樓 RC 校舍）為對象，用 ETABS 建模分析、SERCB 做耐震能力詳細評估，結果顯示既有耐震能力不足，需要補強。</p>
+            <ul class="stats">
+              <li><b>4 套</b><span>學會的軟體：C#、ETABS、SERCB、SketchUp</span></li>
+              <li><b>2 層樓</b><span>評估對象：瑞埔國小標準試體校舍</span></li>
+              <li><b>0.386 秒</b><span>第一振態週期（ETABS 分析）</span></li>
+              <li><b>NG</b><span>性能檢核結果，需要耐震補強</span></li>
+            </ul>
+          </div>
+        </div>
+        <details class="more">
+          <summary><span class="m-open">展開完整內容</span><span class="m-close">收合內容</span><small>各軟體的操作流程、評估結果、收穫與 10 張圖</small></summary>
+        <div class="art gridpaper">
+          <div class="gtabs" role="tablist" aria-label="大學專題圖表">
+            <button type="button" role="tab" id="ugtab-etabs" aria-controls="ugfig-etabs" aria-selected="true">ETABS 建模（4 張）</button>
+            <button type="button" role="tab" id="ugtab-sercb" aria-controls="ugfig-sercb" aria-selected="false" tabindex="-1">SERCB 耐震評估（4 張）</button>
+            <button type="button" role="tab" id="ugtab-sketch" aria-controls="ugfig-sketch" aria-selected="false" tabindex="-1">SketchUp 高架橋（2 張）</button>
+          </div>
+          <div class="gfig" id="ugfig-etabs" role="tabpanel" aria-labelledby="ugtab-etabs">
+            <div class="ggrid">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="參考圖說"><img src="ug-ref.png" alt="瑞埔國小標準試體的平面圖、立面圖與梁柱配筋表" width="1170" height="633" loading="lazy"></button>
+                <figcaption>參考圖說：瑞埔國小標準試體的平面、立面與梁柱配筋表</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="斷面與參數設定"><img src="ug-sect.png" alt="ETABS 中柱、梁、樓板、矮牆斷面，以及剛性樓板與剛性域的設定視窗" width="1170" height="566" loading="lazy"></button>
+                <figcaption>設定柱、梁、樓板、矮牆斷面，並指定剛性樓板與剛性域</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="3D 結構模型"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" width="671" height="433" loading="lazy"></button>
+                <figcaption>完成的兩層樓 RC 校舍 3D 結構模型</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="分析結果"><img src="ug-run.png" alt="ETABS 分析後的變形圖、支承反力表與振態週期表" width="1170" height="595" loading="lazy"></button>
+                <figcaption>執行分析後，檢查變形、支承反力與振態週期</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="gfig" id="ugfig-sercb" role="tabpanel" aria-labelledby="ugtab-sercb" hidden>
+            <div class="ggrid">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="斷面與配筋"><img src="ug-rebar.png" alt="SERCB 中輸入斷面資料、設定斷面材料與計算配筋位置的視窗" width="1170" height="639" loading="lazy"></button>
+                <figcaption>在 SERCB 輸入斷面資料、設定材料，並計算配筋位置</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="側推分析"><img src="ug-push.png" alt="側推分析的容量曲線與容量震譜" width="1170" height="547" loading="lazy"></button>
+                <figcaption>側推分析（Pushover）的容量曲線與容量震譜</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="性能目標"><img src="ug-perf.png" alt="SERCB 性能目標圖，PLA、PLB、PLC 三個性能水準與設計需求線" width="876" height="503" loading="lazy"></button>
+                <figcaption>性能目標：設計需求超過 PLC，結果為 NG</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="性能檢核"><img src="ug-check.png" alt="SERCB 性能檢核圖，Sd_II 超過 PLB 星號點" width="813" height="458" loading="lazy"></button>
+                <figcaption>性能檢核：Sd_II 超過 PLB*，結果為 NG</figcaption>
+              </figure>
+            </div>
+            <p class="gsum">評估條件為花蓮市、第一類地盤、用途係數 I = 1.25。性能目標與性能檢核都是 NG，代表這棟校舍的既有耐震能力不足，需要補強。</p>
+          </div>
+          <div class="gfig" id="ugfig-sketch" role="tabpanel" aria-labelledby="ugtab-sketch" hidden>
+            <div class="ggrid">
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="高架橋 3D 模型"><img src="ug-bridge.png" alt="SketchUp 建立的高架橋模型透視圖與仰視圖" width="1127" height="618" loading="lazy"></button>
+                <figcaption>高架橋 3D 模型：彎道匝道、箱型梁與橋墩</figcaption>
+              </figure>
+              <figure class="gitem">
+                <button type="button" class="gimg" data-title="高架橋平面與立面"><img src="ug-elev.png" alt="SketchUp 高架橋模型的平面圖與兩個立面圖" width="1133" height="418" loading="lazy"></button>
+                <figcaption>高架橋的平面與立面</figcaption>
+              </figure>
+            </div>
+          </div>
+          <p class="cap">點圖片可以放大查看細節。</p>
+        </div>
+        <div class="pbody">
+          <div class="cols">
+            <dl class="pdl">
+              <dt>專題內容</dt><dd>在指導教授的研究室學習結構分析與耐震評估的軟體流程，以瑞埔國小的標準試體校舍（兩層樓 RC 校舍）為對象，從建模、分析一路做到耐震能力詳細評估。</dd>
+              <dt>C# 程式</dt><dd>學習 C# 基礎語法，寫出矩陣輸入與運算的小程式，熟悉結構分析背後的矩陣計算。</dd>
+              <dt>ETABS 建模</dt><dd>依照圖說建立格線，設定材料與梁、柱、樓板、矮牆斷面，指定剛性樓板與剛性域；加入地震力後執行分析，檢查支承反力與振態週期。</dd>
+              <dt>SERCB 評估</dt><dd>把 ETABS 模型匯入 SERCB（耐震能力詳細評估系統），建立牆柱斷面與配筋、分析磚牆與 RC 牆、計算 PM 曲線與構件塑鉸性質，再回到 ETABS 做側推分析（Pushover），最後在容量震譜上比對性能目標。</dd>
+              <dt>SketchUp</dt><dd>練習 3D 建模，做出含彎道匝道、箱型梁與橋墩的高架橋模型。</dd>
+            </dl>
+            <div class="panel">
+              <h4>評估結果</h4>
+              <ul class="finds">
+                <li>以花蓮市、第一類地盤、用途係數 I = 1.25 的條件檢核，這棟校舍的性能目標與性能檢核都是 NG，代表既有耐震能力不足，需要補強。</li>
+              </ul>
+              <h4>我的收穫</h4>
+              <ul class="finds">
+                <li>完整走過一次既有建築的耐震評估：建模、靜力分析、側推分析到性能檢核</li>
+                <li>熟悉 ETABS 與 SERCB 之間用 e2k 檔來回匯出、匯入的流程</li>
+                <li>看得懂振態週期、容量曲線和性能點代表的意義</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        </details>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="band" id="study">
+  <div class="wrap">
+    <div class="head"><h2>學歷</h2></div>
+    <div class="xp">
+      <div class="when">2025.09 – 2027.06</div>
+      <div class="what">
+        <h3>國立成功大學 土木工程學系 碩士班</h3>
+        <p class="org">結構工程組，日間部就讀中</p>
+      </div>
+      <div class="when">2021.09 – 2025.06</div>
+      <div class="what">
+        <h3>國立臺北科技大學 土木工程學系</h3>
+        <p class="org">學士</p>
+      </div>
+      <div class="when">2018.08 – 2021.06</div>
+      <div class="what">
+        <h3>國立嘉義高工 建築科</h3>
+        <p class="org">高職畢業</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band con" id="exp">
+  <div class="wrap">
+    <div class="head"><h2>工作與實習經歷</h2></div>
+    <div class="xp">
+      <div class="when">2025.10 – 2026.03</div>
+      <div class="what">
+        <h3>國中數學輔導老師</h3>
+        <p class="org">臺中市私立冠成文理短期補習班，台南市東區</p>
+        <p class="do">擔任數理補習班老師，輔導國中數學。</p>
+      </div>
+      <div class="when">2025.10 – 2025.12</div>
+      <div class="what">
+        <h3>工讀生</h3>
+        <p class="org">侯坤池建築師事務所，台南市東區</p>
+      </div>
+      <div class="when">2023.06 – 2023.08</div>
+      <div class="what">
+        <h3>公務助理（實習）</h3>
+        <p class="org">地樺營造事業股份有限公司，台北市大同區</p>
+        <ul>
+          <li>協助工地主任與主管交辦事項</li>
+          <li>協助複驗屋</li>
+          <li>電腦建檔、歸檔相關作業</li>
+          <li>用 Excel、PowerPoint、Word 製作報告</li>
+          <li>維持環境整潔</li>
+        </ul>
+      </div>
+      <div class="when">2021.07 – 2021.08</div>
+      <div class="what">
+        <h3>行政工讀</h3>
+        <p class="org">新竹物流股份有限公司，台北市士林區</p>
+        <ul>
+          <li>協助主管交辦事項</li>
+          <li>掃描送貨員包裹條碼</li>
+          <li>電腦建檔、歸檔相關作業</li>
+        </ul>
+      </div>
+      <div class="when">在學期間</div>
+      <div class="what">
+        <h3>系學會公關長</h3>
+        <p class="org">系學會</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap se">
+    <div id="skills">
+      <div class="head"><h2>技能</h2></div>
+      <div class="groups">
+        <div>
+          <h3>工程軟體</h3>
+          <ul class="chips"><li>AutoCAD</li><li>SketchUp</li><li>ETABS</li><li>SERCB</li><li>COMSOL Multiphysics</li></ul>
+        </div>
+        <div>
+          <h3>程式與 AI</h3>
+          <ul class="chips"><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li>MATLAB</li><li>C#</li><li>Git／GitHub</li></ul>
+        </div>
+        <div>
+          <h3>研究方法</h3>
+          <ul class="chips"><li>相場法斷裂模擬</li><li>網格與時間步收斂測試</li><li>批次模擬自動化</li><li>神經網路替代模型</li><li>側推分析（Pushover）</li><li>耐震能力詳細評估</li></ul>
+        </div>
+        <div>
+          <h3>文書與簡報</h3>
+          <ul class="chips"><li>Word</li><li>Excel</li><li>PowerPoint</li><li>文書處理與排版</li><li>提案與簡報</li><li>文件資料處理與整合</li></ul>
+        </div>
+        <div>
+          <h3>數學</h3>
+          <ul class="chips"><li>基礎微積分</li><li>高職力學</li><li>國中、國小數學</li></ul>
+        </div>
+        <div>
+          <h3>語言</h3>
+          <ul class="chips"><li>英文（略懂）</li><li>台語（中等）</li></ul>
+        </div>
+      </div>
+    </div>
+    <div id="certs">
+      <div class="head"><h2>證照</h2></div>
+      <ul class="certs">
+        <li><b>乙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li><b>丙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li><b>丙級電腦輔助建築製圖技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li><b>全民英檢初級（GEPT）</b><small>財團法人語言訓練測驗中心</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band contact" id="contact">
+  <div class="wrap">
+    <div class="head"><h2>想聊聊嗎？</h2></div>
+    <p>不論是實習、工讀或正職機會，都歡迎來信。</p>
+    <div class="mailrow">
+      <span class="mail" id="mail">lucy123312@gmail.com</span>
+      <button class="btn" id="copy" type="button">複製 Email</button>
+    </div>
+    <div class="links">
+      <a href="mailto:lucy123312@gmail.com">寄信給我</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 林歆凌　最後更新：2026 年 11 月</footer>
+
+<dialog class="lb" id="lb" aria-labelledby="lbt">
+  <div class="lbbar"><span id="lbt"></span><button type="button" id="lbclose">關閉</button></div>
+  <div class="lbscroll"><img id="lbimg" alt=""></div>
+</dialog>
+
+<script>
+{
+  const copy = document.getElementById('copy');
+  const mail = document.getElementById('mail');
+  copy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(mail.textContent.trim());
+      copy.textContent = '已複製';
+    } catch (err) {
+      copy.textContent = '請手動複製上面的地址';
+    }
+    setTimeout(() => { copy.textContent = '複製 Email'; }, 2200);
+  });
+
+  document.querySelectorAll('.gtabs').forEach(list => {
+    const tabs = [...list.querySelectorAll('[role=tab]')];
+    const select = t => {
+      tabs.forEach(b => {
+        const on = b === t;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.tabIndex = on ? 0 : -1;
+        document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+      });
+    };
+    tabs.forEach((b, i) => {
+      b.addEventListener('click', () => select(b));
+      b.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        select(n);
+        n.focus();
+      });
+    });
+  });
+
+  const lb = document.getElementById('lb');
+  const lbimg = document.getElementById('lbimg');
+  const lbt = document.getElementById('lbt');
+  document.querySelectorAll('.gimg').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const img = btn.querySelector('img');
+      lbimg.src = img.getAttribute('src');
+      lbimg.alt = img.alt;
+      lbt.textContent = btn.dataset.title;
+      try { lb.showModal(); } catch (err) { lb.setAttribute('open', ''); }
+    });
+  });
+  const closeLb = () => { try { lb.close(); } catch (err) { lb.removeAttribute('open'); } };
+  document.getElementById('lbclose').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+}
+</script>
+</body>
+</html>

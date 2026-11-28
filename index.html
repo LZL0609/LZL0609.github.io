@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>林歆凌個人網站</title>
 <meta name="description" content="林歆凌，成功大學土木工程研究所結構工程組碩士生。碩士論文以神經網路預測多孔板裂縫演化，大學專題做既有校舍耐震能力詳細評估。">
+<script>
+try{
+  const t = localStorage.getItem('theme');
+  if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  const q = new URLSearchParams(location.search).get('lang');
+  if ((q || localStorage.getItem('lang')) === 'en') document.documentElement.lang = 'en';
+}catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -12,9 +20,10 @@
 /* VOICE   everyday, eager and practical: a structural engineering master's student introducing herself to employers
    IDEA    a construction drawing sheet: double-line frame, title block, section hatching under every heading
    PICTURE the student in hard hat and vest in front of a bridge elevation; thesis and project each drawn as an elevation
-   COLOUR  white drawing paper, concrete-grey bands, drawing-blue linework, safety yellow accents, blue closing band
+   COLOUR  white drawing paper, concrete-grey bands, drawing-blue linework, safety yellow accents, concrete-grey closing band
    TYPE    Noto Sans TC 900 headings + Noto Sans TC text; Barlow Condensed (highway-sign lettering) for dimensions and dates
-   LAYOUT  laptop: concrete band, framed sheet with drawing left, cover and title block right; phone: drawing, cover, title block in two columns */
+   LAYOUT  laptop: concrete band, framed sheet with drawing left, cover and title block right; phone: drawing, cover, title block in two columns
+   SWITCH  header tools: language (Chinese/English, ?lang=en link) and light/dark; English lives in data-en attributes next to the Chinese */
 :root{color-scheme:light dark;
 --bg:light-dark(#ffffff,#121417);
 --ink:light-dark(#1b1d1f,#ecebe7);
@@ -46,10 +55,18 @@ h2,h1{font-weight:900}
 svg text{font:600 16px var(--num);fill:var(--blue);paint-order:stroke;stroke:var(--paper);stroke-width:4px}
 
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:6px max(5vw,16px);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.top .me{flex:none;font:900 19px/1 var(--text);color:var(--ink);text-decoration:none;padding:12px 0}
-.top nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.top .me{flex:none;margin-right:auto;font:900 19px/1 var(--text);color:var(--ink);text-decoration:none;padding:12px 0}
+.top nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .top nav a{flex:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:6px;color:var(--muted);text-decoration:none;font-size:15px}
 .top nav a:hover{background:var(--con);color:var(--ink)}
+.tools{flex:none;display:flex;gap:6px;padding-left:12px;border-left:1px solid var(--line)}
+.tool{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;padding:0 10px;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper);color:var(--ink);font:700 15px/1 var(--text);cursor:pointer}
+.tool:hover{background:var(--yel);color:#1b1d1f;border-color:#1b1d1f}
+.tool svg{width:20px;height:20px}
+.tool .sun{display:none}
+:root[data-theme=dark] .tool .sun{display:block}
+:root[data-theme=dark] .tool .moon{display:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tool .sun{display:block}:root:not([data-theme=light]) .tool .moon{display:none}}
 
 .sheet{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);margin:7px;background:var(--paper);border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px}
 .pic{position:relative;min-height:440px;border-right:1px solid var(--ink)}
@@ -57,7 +74,9 @@ svg text{font:600 16px var(--num);fill:var(--blue);paint-order:stroke;stroke:var
 .photo{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);height:min(74%,340px);width:auto;max-width:80%;aspect-ratio:575/764;object-fit:cover;background:#fff;border:2px solid var(--ink);box-shadow:10px 10px 0 var(--yel)}
 .cover{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:18px}
 .cover h1{font-size:clamp(48px,7.5vw,76px);line-height:1.05}
+:root:lang(en) .cover h1{font-size:clamp(40px,6.2vw,68px)}
 .aka{margin:-12px 0 0;font-size:16px;color:var(--muted)}
+.nw{white-space:nowrap}
 .role{margin:-10px 0 0;font-size:20px;font-weight:700;color:var(--blue)}
 .intro{margin:0;font-size:19px;max-width:30em}
 .tb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;border:1.5px solid var(--ink)}
@@ -201,16 +220,23 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 @media(max-width:900px){.brief .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.se,.grades,.cols{grid-template-columns:1fr;gap:40px}.cols{gap:28px}.beats{gap:28px 32px}}
 @media(max-width:700px){.brief{grid-template-columns:1fr}.brief-pic{border-right:0;border-bottom:1px solid var(--ink)}.sheet,.proj{grid-template-columns:1fr}.pic{min-height:320px;border-right:0;border-bottom:1px solid var(--ink)}.art{min-height:200px;border-right:0;border-bottom:1px solid var(--ink)}.beats,.groups{grid-template-columns:1fr}
 .tb{grid-template-columns:repeat(2,minmax(0,1fr))}.tb div:nth-child(3n){border-right:1px solid var(--ink)}.tb div:nth-child(2n){border-right:0}.tb div:nth-last-child(-n+3){border-bottom:1px solid var(--ink)}.tb div:nth-last-child(-n+2){border-bottom:0}}
-@media(max-width:600px){.ggrid,.ggrid.g3{grid-template-columns:1fr}.ggrid .gimg,.ggrid.tall .gimg{height:auto}.flow{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.proj.wide .art{padding:14px 12px 12px}.gtabs button{flex:1 1 auto;padding:0 10px}.pdl{grid-template-columns:1fr;gap:2px}.pdl dd{margin-bottom:12px}.xp{grid-template-columns:1fr}.when{font-size:21px;padding-bottom:0}.what{border-top:0;padding-top:4px}.top nav{display:none}}
+@media(max-width:600px){.ggrid,.ggrid.g3{grid-template-columns:1fr}.ggrid .gimg,.ggrid.tall .gimg{height:auto}.flow{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.proj.wide .art{padding:14px 12px 12px}.gtabs button{flex:1 1 auto;padding:0 10px}.pdl{grid-template-columns:1fr;gap:2px}.pdl dd{margin-bottom:12px}.xp{grid-template-columns:1fr}.when{font-size:21px;padding-bottom:0}.what{border-top:0;padding-top:4px}.top nav{display:none}.tools{border-left:0;padding-left:0}}
 </style>
 </head>
 <body>
 
 <header class="top">
-  <a class="me" href="#top">林歆凌</a>
-  <nav aria-label="頁面導覽">
-    <a href="#about">關於我</a><a href="#work">論文與專題</a><a href="#study">學歷</a><a href="#exp">經歷</a><a href="#skills">技能</a><a href="#certs">證照</a><a href="#contact">聯絡</a>
+  <a class="me" href="#top" data-en="Xin-Ling Lin">林歆凌</a>
+  <nav aria-label="頁面導覽" data-en-label="Page navigation">
+    <a href="#about" data-en="About">關於我</a><a href="#work" data-en="Thesis &amp; Project">論文與專題</a><a href="#study" data-en="Education">學歷</a><a href="#exp" data-en="Experience">經歷</a><a href="#skills" data-en="Skills">技能</a><a href="#certs" data-en="Certifications">證照</a><a href="#contact" data-en="Contact">聯絡</a>
   </nav>
+  <div class="tools">
+    <button type="button" class="tool" id="langbtn" lang="en" aria-label="Switch to English" title="Switch to English">EN</button>
+    <button type="button" class="tool" id="themebtn" aria-label="切換成深色模式" title="切換成深色模式">
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4 8.2 8.2 0 1 0 20 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
 </header>
 
 <section class="band con" id="top">
@@ -229,24 +255,24 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
           <path d="M-20 382 H420" stroke="var(--ink)" stroke-width="2"/>
           <text x="285" y="30" text-anchor="middle">40.0 m</text>
         </svg>
-        <img class="photo" src="photo.jpg" alt="林歆凌的大頭照" width="575" height="764">
+        <img class="photo" src="photo.jpg" alt="林歆凌的大頭照" data-en-alt="Headshot of Xin-Ling Lin" width="575" height="764">
       </div>
       <div class="cover">
-        <h1>林歆凌</h1>
-        <p class="aka">原名李梓菱</p>
-        <p class="role">成功大學土木工程研究所 結構工程組 碩士二年級</p>
-        <p class="intro">我的優點是有耐心、不怕麻煩、願意學習，也是一個好奇心滿滿的人，遇到不懂的地方會積極去詢問。</p>
+        <h1 data-en="Xin-Ling Lin">林歆凌</h1>
+        <p class="aka" data-en="Chinese name <span class='nw'>林歆凌</span>, formerly <span class='nw'>李梓菱 (Zi-Ling Li)</span>">原名李梓菱</p>
+        <p class="role" data-en="2nd-year M.S. student in Structural Engineering, National Cheng Kung University">成功大學土木工程研究所 結構工程組 碩士二年級</p>
+        <p class="intro" data-en="I'm patient, I don't mind tedious work, and I'm eager to learn. I'm also endlessly curious: when I don't understand something, I go and ask.">我的優點是有耐心、不怕麻煩、願意學習，也是一個好奇心滿滿的人，遇到不懂的地方會積極去詢問。</p>
         <dl class="tb">
-          <div><dt>預計畢業</dt><dd>2027 年 6 月（碩士）</dd></div>
-          <div><dt>想找的職位</dt><dd>工程顧問公司的結構工程師</dd></div>
-          <div><dt>在學期間</dt><dd>可配合課表實習、工讀</dd></div>
-          <div><dt>希望地點</dt><dd>台南</dd></div>
-          <div><dt>駕照</dt><dd>普通小型車、普通重型機車</dd></div>
-          <div><dt>可到職</dt><dd>實習、工讀錄取後隨時</dd></div>
+          <div data-en="<dt>Expected graduation</dt><dd>June 2027 (M.S.)</dd>"><dt>預計畢業</dt><dd>2027 年 6 月（碩士）</dd></div>
+          <div data-en="<dt>Looking for</dt><dd>Structural engineer at a consultancy</dd>"><dt>想找的職位</dt><dd>工程顧問公司的結構工程師</dd></div>
+          <div data-en="<dt>While in school</dt><dd>Internship or part-time, around classes</dd>"><dt>在學期間</dt><dd>可配合課表實習、工讀</dd></div>
+          <div data-en="<dt>Preferred location</dt><dd>Tainan</dd>"><dt>希望地點</dt><dd>台南</dd></div>
+          <div data-en="<dt>Driver's licenses</dt><dd>Car and motorcycle</dd>"><dt>駕照</dt><dd>普通小型車、普通重型機車</dd></div>
+          <div data-en="<dt>Start date</dt><dd>Internship or part-time: right away</dd>"><dt>可到職</dt><dd>實習、工讀錄取後隨時</dd></div>
         </dl>
         <div class="actions">
-          <a class="btn" href="#work">看論文與專題</a>
-          <a class="btn ghost" href="#contact">寫信給我</a>
+          <a class="btn" href="#work" data-en="See thesis &amp; project">看論文與專題</a>
+          <a class="btn ghost" href="#contact" data-en="Email me">寫信給我</a>
         </div>
       </div>
     </div>
@@ -255,23 +281,23 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 
 <section class="band" id="about">
   <div class="wrap">
-    <div class="head"><h2>關於我</h2></div>
+    <div class="head"><h2 data-en="About me">關於我</h2></div>
     <div class="beats">
       <div>
-        <h3>成長背景</h3>
-        <p>我出生於嘉義市，家中有一位姊姊與一位哥哥，一家人感情緊密、互相扶持。媽媽常說：「自己選擇的路，就要自己負責。」因此家人從不阻止我追求想做的事，總是全力支持我的決定，也讓我養成為自己的選擇負責到底的個性。</p>
+        <h3 data-en="Growing up">成長背景</h3>
+        <p data-en="I was born in Chiayi City and grew up with an older sister and an older brother. We're a close family that looks out for each other. My mother often says, “If you choose a path, you're responsible for it.” So my family has never stopped me from going after what I want to do. They've always backed my decisions, and I've learned to see my own choices through to the end.">我出生於嘉義市，家中有一位姊姊與一位哥哥，一家人感情緊密、互相扶持。媽媽常說：「自己選擇的路，就要自己負責。」因此家人從不阻止我追求想做的事，總是全力支持我的決定，也讓我養成為自己的選擇負責到底的個性。</p>
       </div>
       <div>
-        <h3>為什麼選擇結構</h3>
-        <p>我從小就對建築物如何被建造充滿好奇，也喜歡樂高這類動手實作的遊戲，所以高職選了嘉義高工建築科。學設計與繪圖時，我發現比起畫出好看的設計，我更想弄懂結構為什麼站得住、力是怎麼傳遞的，於是大學進入臺北科技大學土木工程系。之後我對從建築物到橋梁等各類結構都想深入了解，研究所便選擇了成功大學結構工程組。</p>
+        <h3 data-en="Why structures">為什麼選擇結構</h3>
+        <p data-en="As a kid I was curious about how buildings get built, and I loved hands-on things like LEGO, so in vocational high school I chose the architecture program at National Chiayi Industrial Vocational High School. While learning design and drafting, I realized that more than drawing good-looking designs, I wanted to understand why a structure stays up and how forces travel through it. That led me to civil engineering at National Taipei University of Technology. From there I wanted to understand every kind of structure, from buildings to bridges, so for graduate school I chose structural engineering at National Cheng Kung University.">我從小就對建築物如何被建造充滿好奇，也喜歡樂高這類動手實作的遊戲，所以高職選了嘉義高工建築科。學設計與繪圖時，我發現比起畫出好看的設計，我更想弄懂結構為什麼站得住、力是怎麼傳遞的，於是大學進入臺北科技大學土木工程系。之後我對從建築物到橋梁等各類結構都想深入了解，研究所便選擇了成功大學結構工程組。</p>
       </div>
       <div>
-        <h3>從零開始學程式</h3>
-        <p>碩士研究結合 COMSOL 相場法模擬與深度學習，訓練神經網路預測裂縫怎麼長（詳見下方「論文與專題」）。這項研究需要寫大量程式，而我原本完全沒有程式基礎。過程中雖然屢屢碰壁，但我耐心地把教授交付的任務一步步完成，現在能用 MATLAB 自動化批次模擬、用 PyTorch 訓練模型，並和老師透過 GitHub 往返審查程式，也培養出面對困難仍堅持到底的態度。</p>
+        <h3 data-en="Learning to code from zero">從零開始學程式</h3>
+        <p data-en="My master's research combines COMSOL phase-field simulation with deep learning, training a neural network to predict how cracks grow (see Thesis &amp; Project below). The work takes a lot of programming, and I started with no coding background at all. I hit wall after wall, but I worked through each task my professors gave me one step at a time. Now I can automate batch simulations in MATLAB, train models in PyTorch, and go back and forth with my advisor on code reviews through GitHub. Along the way I learned to keep going when things get hard.">碩士研究結合 COMSOL 相場法模擬與深度學習，訓練神經網路預測裂縫怎麼長（詳見下方「論文與專題」）。這項研究需要寫大量程式，而我原本完全沒有程式基礎。過程中雖然屢屢碰壁，但我耐心地把教授交付的任務一步步完成，現在能用 MATLAB 自動化批次模擬、用 PyTorch 訓練模型，並和老師透過 GitHub 往返審查程式，也培養出面對困難仍堅持到底的態度。</p>
       </div>
       <div>
-        <h3>我想做的事</h3>
-        <p>我希望畢業後加入工程顧問公司，專注在結構分析與耐震評估：建立模型、執行分析，再整理成清楚的計算書與報告。我也希望把研究中練到的數值模擬與程式自動化能力，用在處理大量案例、提升分析效率上。在學期間，我可以配合課表實習或工讀，提早累積實務經驗。</p>
+        <h3 data-en="What I want to do">我想做的事</h3>
+        <p data-en="After graduating, I want to join an engineering consultancy and focus on structural analysis and seismic assessment: building models, running analyses, and turning the results into clear calculation reports. I also want to use the numerical simulation and automation skills from my research to handle large numbers of cases and make analysis faster. While I'm still in school, I can intern or work part-time around my class schedule to gain practical experience early.">我希望畢業後加入工程顧問公司，專注在結構分析與耐震評估：建立模型、執行分析，再整理成清楚的計算書與報告。我也希望把研究中練到的數值模擬與程式自動化能力，用在處理大量案例、提升分析效率上。在學期間，我可以配合課表實習或工讀，提早累積實務經驗。</p>
       </div>
     </div>
   </div>
@@ -279,139 +305,139 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 
 <section class="band con" id="work">
   <div class="wrap">
-    <div class="head"><h2>論文與專題</h2></div>
+    <div class="head"><h2 data-en="Thesis &amp; Project">論文與專題</h2></div>
     <div class="projects">
 
-      <div class="kind"><h3>碩士論文</h3><span>進行中</span></div>
+      <div class="kind"><h3 data-en="Master's thesis">碩士論文</h3><span data-en="In progress">進行中</span></div>
       <article class="proj wide">
         <div class="brief">
           <div class="brief-pic gridpaper">
-            <button type="button" class="gimg" data-title="雙孔板的裂縫動畫"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫" width="300" height="330"></button>
+            <button type="button" class="gimg" data-title="雙孔板的裂縫動畫" data-en-tt="Crack animation: two-hole plate"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫" data-en-alt="COMSOL animation of a crack growing in a two-hole plate" width="300" height="330"></button>
           </div>
           <div class="pbody">
-            <h3>以 pGFINN 神經網路預測二維多孔板的裂縫演化</h3>
-            <p class="subt">結合 COMSOL 相場法模擬的 AI 替代模型</p>
-            <p class="en">Predicting Fracture Evolution in 2D Porous Plates with a GENERIC-Informed Neural Network (pGFINN): A Surrogate Model Trained on Phase-Field Simulations</p>
-            <p class="meta">成功大學土木工程研究所 結構工程組，題目暫定，預計 2027 年 6 月完成<br>指導教授：土木工程系 胡宣德 教授<br>共同指導教授：工程科學系 游濟華 教授</p>
-            <p class="lead">用 COMSOL 相場法模擬自建三組多孔板裂縫資料集（各 400 案），訓練 pGFINN 神經網路只看第一張圖，就自己推出整段裂縫怎麼長，目標是成為取代重複模擬的快速替代模型。</p>
+            <h3 data-en="Predicting Fracture Evolution in 2D Porous Plates with a GENERIC-Informed Neural Network (pGFINN)">以 pGFINN 神經網路預測二維多孔板的裂縫演化</h3>
+            <p class="subt" data-en="A surrogate model trained on COMSOL phase-field simulations">結合 COMSOL 相場法模擬的 AI 替代模型</p>
+            <p class="en" lang="en" data-en-lang="zh-Hant" data-en="以 pGFINN 神經網路預測二維多孔板的裂縫演化：結合 COMSOL 相場法模擬的 AI 替代模型">Predicting Fracture Evolution in 2D Porous Plates with a GENERIC-Informed Neural Network (pGFINN): A Surrogate Model Trained on Phase-Field Simulations</p>
+            <p class="meta" data-en="Structural Engineering, Department of Civil Engineering, National Cheng Kung University. Working title, expected completion June 2027<br>Advisor: Prof. Hsuan-Teh Hu, Department of Civil Engineering<br>Co-advisor: Prof. Chi-Hua Yu, Department of Engineering Science">成功大學土木工程研究所 結構工程組，題目暫定，預計 2027 年 6 月完成<br>指導教授：土木工程系 胡宣德 教授<br>共同指導教授：工程科學系 游濟華 教授</p>
+            <p class="lead" data-en="I built three crack datasets of porous plates with COMSOL phase-field simulation (400 cases each) and trained the pGFINN neural network to work out the whole crack evolution from only the first frame. The goal is a fast surrogate model that replaces repeated simulations.">用 COMSOL 相場法模擬自建三組多孔板裂縫資料集（各 400 案），訓練 pGFINN 神經網路只看第一張圖，就自己推出整段裂縫怎麼長，目標是成為取代重複模擬的快速替代模型。</p>
             <ul class="stats">
-              <li><b>3 × 400 案</b><span>自建的模擬資料集</span></li>
-              <li><b>23 步</b><span>網路自己往下推的步數</span></li>
-              <li><b>≈ 0.45</b><span>雙孔板測試組裂縫 IoU（3 個種子平均）</span></li>
-              <li><b>0.26 → 0.59</b><span>裂縫重疊度 IoU（缺口加孔板驗證組）</span></li>
+              <li data-en="<b>3 × 400</b><span>Simulated cases in the datasets I built</span>"><b>3 × 400 案</b><span>自建的模擬資料集</span></li>
+              <li data-en="<b>23 steps</b><span>Steps the network predicts on its own</span>"><b>23 步</b><span>網路自己往下推的步數</span></li>
+              <li data-en="<b>≈ 0.45</b><span>Crack IoU on the two-hole test set (mean of 3 seeds)</span>"><b>≈ 0.45</b><span>雙孔板測試組裂縫 IoU（3 個種子平均）</span></li>
+              <li data-en="<b>0.26 → 0.59</b><span>Crack overlap IoU (notch-and-hole validation set)</span>"><b>0.26 → 0.59</b><span>裂縫重疊度 IoU（缺口加孔板驗證組）</span></li>
             </ul>
           </div>
         </div>
         <details class="more">
-          <summary><span class="m-open">展開完整內容</span><span class="m-close">收合內容</span><small>研究流程、方法細節、目前發現與 5 組圖表</small></summary>
+          <summary><span class="m-open" data-en="Show full details">展開完整內容</span><span class="m-close" data-en="Hide details">收合內容</span><small data-en="Workflow, methods, current findings and 5 sets of figures">研究流程、方法細節、目前發現與 5 組圖表</small></summary>
         <div class="art gridpaper">
-          <div class="gtabs" role="tablist" aria-label="研究圖表">
-            <button type="button" role="tab" id="tab-setup" aria-controls="th-setup" aria-selected="true">模型設定</button>
-            <button type="button" role="tab" id="tab-data" aria-controls="th-data" aria-selected="false" tabindex="-1">資料集</button>
-            <button type="button" role="tab" id="tab-anim" aria-controls="th-anim" aria-selected="false" tabindex="-1">裂縫動畫</button>
-            <button type="button" role="tab" id="tab-force" aria-controls="th-force" aria-selected="false" tabindex="-1">拉力曲線</button>
-            <button type="button" role="tab" id="tab-compare" aria-controls="th-compare" aria-selected="false" tabindex="-1">預測與模擬對照</button>
+          <div class="gtabs" role="tablist" aria-label="研究圖表" data-en-label="Research figures">
+            <button type="button" role="tab" id="tab-setup" aria-controls="th-setup" aria-selected="true" data-en="Model setup">模型設定</button>
+            <button type="button" role="tab" id="tab-data" aria-controls="th-data" aria-selected="false" tabindex="-1" data-en="Datasets">資料集</button>
+            <button type="button" role="tab" id="tab-anim" aria-controls="th-anim" aria-selected="false" tabindex="-1" data-en="Crack animations">裂縫動畫</button>
+            <button type="button" role="tab" id="tab-force" aria-controls="th-force" aria-selected="false" tabindex="-1" data-en="Force curves">拉力曲線</button>
+            <button type="button" role="tab" id="tab-compare" aria-controls="th-compare" aria-selected="false" tabindex="-1" data-en="Prediction vs. simulation">預測與模擬對照</button>
           </div>
           <div class="gfig" id="th-setup" role="tabpanel" aria-labelledby="tab-setup">
             <div class="ggrid">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="板子與邊界條件"><img src="fig-setup.png" alt="1 mm 方板、兩個孔，上緣往上拉，底邊滾支承，左下角鉸支承" width="476" height="581"></button>
-                <figcaption>板子與邊界條件：1 mm 方板、兩個孔（半徑 0.05–0.15 mm）。上方箭頭是往上拉（位移 0.013 mm × t），底邊小圓圈是滾支承（只擋上下），左下三角形是鉸支承。</figcaption>
+                <button type="button" class="gimg" data-title="板子與邊界條件" data-en-tt="Plate and boundary conditions"><img src="fig-setup.png" alt="1 mm 方板、兩個孔，上緣往上拉，底邊滾支承，左下角鉸支承" data-en-alt="1 mm square plate with two holes, top edge pulled upward, rollers along the bottom edge, pin at the bottom-left corner" width="476" height="581"></button>
+                <figcaption data-en="Plate and boundary conditions: a 1 mm square plate with two holes (radius 0.05–0.15 mm). The arrows on top pull upward (displacement 0.013 mm × t); the small circles along the bottom are rollers (they only restrain vertical movement), and the triangle at the bottom left is a pin.">板子與邊界條件：1 mm 方板、兩個孔（半徑 0.05–0.15 mm）。上方箭頭是往上拉（位移 0.013 mm × t），底邊小圓圈是滾支承（只擋上下），左下三角形是鉸支承。</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="AI 怎麼往下推"><img src="fig-rollout.png" alt="上排是 COMSOL 的 24 張圖，下排是 AI 只拿第 1 張、自己一步一步推到第 24 張" width="988" height="327"></button>
-                <figcaption>AI 怎麼往下推：上排是 COMSOL 的 24 張圖；下排是 AI 只拿第 1 張，自己一步一步推到第 24 張，再和上排逐張比較。</figcaption>
+                <button type="button" class="gimg" data-title="AI 怎麼往下推" data-en-tt="How the AI predicts ahead"><img src="fig-rollout.png" alt="上排是 COMSOL 的 24 張圖，下排是 AI 只拿第 1 張、自己一步一步推到第 24 張" data-en-alt="Top row: 24 frames from COMSOL. Bottom row: the AI starts from frame 1 alone and predicts step by step up to frame 24" width="988" height="327"></button>
+                <figcaption data-en="How the AI predicts ahead: the top row is 24 frames from COMSOL. The bottom row is the AI starting from frame 1 alone and predicting one step at a time up to frame 24, then compared frame by frame with the top row.">AI 怎麼往下推：上排是 COMSOL 的 24 張圖；下排是 AI 只拿第 1 張，自己一步一步推到第 24 張，再和上排逐張比較。</figcaption>
               </figure>
             </div>
           </div>
           <div class="gfig" id="th-data" role="tabpanel" aria-labelledby="tab-data" hidden>
             <div class="ggrid">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="五孔板 10 種排法"><img src="fig-layouts.png" alt="五孔板資料集中 10 種隨機的孔洞排法" width="2015" height="853" loading="lazy"></button>
-                <figcaption>五孔板的 10 種排法：每格是一塊板，白圈是孔、數字是孔的編號；孔的位置和大小都是隨機產生的。</figcaption>
+                <button type="button" class="gimg" data-title="五孔板 10 種排法" data-en-tt="10 layouts of the five-hole plate"><img src="fig-layouts.png" alt="五孔板資料集中 10 種隨機的孔洞排法" data-en-alt="10 random hole layouts from the five-hole plate dataset" width="2015" height="853" loading="lazy"></button>
+                <figcaption data-en="10 layouts of the five-hole plate: each cell is one plate; the white circles are holes and the numbers are hole IDs. Hole positions and sizes are all randomly generated.">五孔板的 10 種排法：每格是一塊板，白圈是孔、數字是孔的編號；孔的位置和大小都是隨機產生的。</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="四種裂縫型態"><img src="fig-types.png" alt="缺口加一孔板的四種裂縫型態" width="1920" height="544" loading="lazy"></button>
-                <figcaption>缺口加一孔板的四種裂縫型態：(a) 孔先裂到邊緣；(b) 缺口 → 孔 → 邊緣；(c) 缺口直接裂到邊緣；(d) 孔先裂，載重進度 t = 1 時還沒斷開。</figcaption>
+                <button type="button" class="gimg" data-title="四種裂縫型態" data-en-tt="Four crack patterns"><img src="fig-types.png" alt="缺口加一孔板的四種裂縫型態" data-en-alt="Four crack patterns in the notch-and-hole plate" width="1920" height="544" loading="lazy"></button>
+                <figcaption data-en="Four crack patterns in the notch-and-hole plate: (a) the hole cracks to the edge first; (b) notch → hole → edge; (c) the notch cracks straight to the edge; (d) the hole cracks first, but the plate still hasn't separated at load progress t = 1.">缺口加一孔板的四種裂縫型態：(a) 孔先裂到邊緣；(b) 缺口 → 孔 → 邊緣；(c) 缺口直接裂到邊緣；(d) 孔先裂，載重進度 t = 1 時還沒斷開。</figcaption>
               </figure>
             </div>
-            <p class="gsum">三組資料集各 400 案：雙孔板、缺口加一孔板、五孔板。孔的大小和位置一變，裂縫的走法就完全不同，這正是網路要學會的事。</p>
+            <p class="gsum" data-en="Three datasets of 400 cases each: two-hole plates, notch-plus-one-hole plates and five-hole plates. Change the size or position of the holes and the crack takes a completely different path. That is exactly what the network has to learn.">三組資料集各 400 案：雙孔板、缺口加一孔板、五孔板。孔的大小和位置一變，裂縫的走法就完全不同，這正是網路要學會的事。</p>
           </div>
           <div class="gfig" id="th-anim" role="tabpanel" aria-labelledby="tab-anim" hidden>
             <div class="ggrid g3">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="缺口加孔板的裂縫動畫"><img src="anim-notch.gif" alt="缺口加孔板的 COMSOL 裂縫成長動畫" width="300" height="330" loading="lazy"></button>
-                <figcaption>缺口加孔板：裂縫從缺口出發，被孔吸過去再從另一側穿出</figcaption>
+                <button type="button" class="gimg" data-title="缺口加孔板的裂縫動畫" data-en-tt="Crack animation: notch-and-hole plate"><img src="anim-notch.gif" alt="缺口加孔板的 COMSOL 裂縫成長動畫" data-en-alt="COMSOL animation of a crack growing in a notch-and-hole plate" width="300" height="330" loading="lazy"></button>
+                <figcaption data-en="Notch-and-hole plate: the crack starts at the notch, gets drawn into the hole, then exits on the other side">缺口加孔板：裂縫從缺口出發，被孔吸過去再從另一側穿出</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（一）"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫穿過大孔並延伸到小孔" width="300" height="330" loading="lazy"></button>
-                <figcaption>雙孔板：裂縫穿過大孔，再往右上延伸到小孔</figcaption>
+                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（一）" data-en-tt="Crack animation: two-hole plate (1)"><img src="anim-two-a.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫穿過大孔並延伸到小孔" data-en-alt="COMSOL animation of a two-hole plate: the crack passes through the large hole and extends to the small one" width="300" height="330" loading="lazy"></button>
+                <figcaption data-en="Two-hole plate: the crack passes through the large hole, then extends up and to the right to the small hole">雙孔板：裂縫穿過大孔，再往右上延伸到小孔</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（二）"><img src="anim-two-b.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫只穿過上方的孔" width="300" height="330" loading="lazy"></button>
-                <figcaption>雙孔板：裂縫只穿過上方的孔，下方的孔沒有參與</figcaption>
+                <button type="button" class="gimg" data-title="雙孔板的裂縫動畫（二）" data-en-tt="Crack animation: two-hole plate (2)"><img src="anim-two-b.gif" alt="雙孔板的 COMSOL 裂縫成長動畫，裂縫只穿過上方的孔" data-en-alt="COMSOL animation of a two-hole plate: the crack passes only through the upper hole" width="300" height="330" loading="lazy"></button>
+                <figcaption data-en="Two-hole plate: the crack passes only through the upper hole; the lower hole isn't involved">雙孔板：裂縫只穿過上方的孔，下方的孔沒有參與</figcaption>
               </figure>
             </div>
-            <p class="gsum">COMSOL 相場法模擬，藍色是完好、紅色是裂開，白色是孔。動畫下方的 t 是載重進度（上緣位移 = 0.013 mm × t），不是真實時間。</p>
+            <p class="gsum" data-en="COMSOL phase-field simulations: blue is intact, red is cracked and white is a hole. The t under each animation is load progress (top-edge displacement = 0.013 mm × t), not real time.">COMSOL 相場法模擬，藍色是完好、紅色是裂開，白色是孔。動畫下方的 t 是載重進度（上緣位移 = 0.013 mm × t），不是真實時間。</p>
           </div>
           <div class="gfig" id="th-force" role="tabpanel" aria-labelledby="tab-force" hidden>
             <div class="ggrid g1">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="五孔板 10 案的拉力曲線"><img src="fig-force10.png" alt="五孔板 10 個案例的上緣拉力與載重進度曲線" width="2015" height="858" loading="lazy"></button>
-                <figcaption>五孔板 10 案的拉力曲線：橫軸是載重進度 t（上緣位移 = 0.013 mm × t，不是真實時間），縱軸是上緣拉力（kN／每公尺厚），紅色虛線是拉力最高的時刻。拉力先一路上升，到最高點後突然掉下去，就是板子裂開；有些案例掉一次就斷，有些分好幾段（第 6、9、10 案），代表裂縫是一段一段串過孔的。</figcaption>
+                <button type="button" class="gimg" data-title="五孔板 10 案的拉力曲線" data-en-tt="Force curves for 10 five-hole cases"><img src="fig-force10.png" alt="五孔板 10 個案例的上緣拉力與載重進度曲線" data-en-alt="Top-edge force versus load progress for 10 five-hole cases" width="2015" height="858" loading="lazy"></button>
+                <figcaption data-en="Force curves for 10 five-hole cases: the horizontal axis is load progress t (top-edge displacement = 0.013 mm × t, not real time), the vertical axis is the top-edge force (kN per metre of thickness), and the red dashed line marks the peak force. The force climbs steadily, then drops suddenly after the peak: that's the plate cracking. Some cases break in a single drop; others drop in several stages (cases 6, 9 and 10), which means the crack links up the holes one segment at a time.">五孔板 10 案的拉力曲線：橫軸是載重進度 t（上緣位移 = 0.013 mm × t，不是真實時間），縱軸是上緣拉力（kN／每公尺厚），紅色虛線是拉力最高的時刻。拉力先一路上升，到最高點後突然掉下去，就是板子裂開；有些案例掉一次就斷，有些分好幾段（第 6、9、10 案），代表裂縫是一段一段串過孔的。</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="第 8 案：裂縫與拉力對照"><img src="fig-sim.png" alt="五孔板第 8 案拉力最高點之後的 8 個時刻，與上緣拉力和裂開格子數的曲線" width="2145" height="1001" loading="lazy"></button>
-                <figcaption>單一案例（上圖的第 8 案）：拉力最高點之後的 8 個時刻與拉力曲線對照。裂縫先從孔 5 裂向右緣，再往左經過孔 3，最後貫穿到左緣，整個過程發生在載重進度 t = 0.559 到 0.569 之間。</figcaption>
+                <button type="button" class="gimg" data-title="第 8 案：裂縫與拉力對照" data-en-tt="Case 8: crack and force side by side"><img src="fig-sim.png" alt="五孔板第 8 案拉力最高點之後的 8 個時刻，與上緣拉力和裂開格子數的曲線" data-en-alt="Eight moments after the peak force in five-hole case 8, with curves of top-edge force and number of cracked cells" width="2145" height="1001" loading="lazy"></button>
+                <figcaption data-en="A single case (case 8 above): eight moments after the peak force, matched against the force curve. The crack first runs from hole 5 to the right edge, then goes left through hole 3, and finally cuts through to the left edge, all between load progress t = 0.559 and 0.569.">單一案例（上圖的第 8 案）：拉力最高點之後的 8 個時刻與拉力曲線對照。裂縫先從孔 5 裂向右緣，再往左經過孔 3，最後貫穿到左緣，整個過程發生在載重進度 t = 0.559 到 0.569 之間。</figcaption>
               </figure>
             </div>
           </div>
           <div class="gfig" id="th-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
             <div class="ggrid tall">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="雙孔板逐步推演（範例）"><img src="fig-twohole.png" alt="雙孔板第 1、12、14、18、23 步的 COMSOL 模擬、AI 預測與裂開格子疊圖" width="1297" height="909" loading="lazy"></button>
-                <figcaption>範例（example）：雙孔板中表現最好的一案，不代表平均結果。橫向是第 1、12、14、18、23 步；第一列是 COMSOL，第二列是 AI（隨機種子 42）自己往下推，第三列把裂開的格子疊在一起：灰色是兩邊都有、藍色是只有 COMSOL 有、紅色是只有 AI 有。AI 抓到裂縫從大孔兩側長出來、再接到小孔，但比 COMSOL 早一點開始長，畫得也比較寬。</figcaption>
+                <button type="button" class="gimg" data-title="雙孔板逐步推演（範例）" data-en-tt="Two-hole plate, step by step (example)"><img src="fig-twohole.png" alt="雙孔板第 1、12、14、18、23 步的 COMSOL 模擬、AI 預測與裂開格子疊圖" data-en-alt="COMSOL simulation, AI prediction and cracked-cell overlay at steps 1, 12, 14, 18 and 23 of a two-hole plate" width="1297" height="909" loading="lazy"></button>
+                <figcaption data-en="Example: the best-performing two-hole case, not an average result. Columns are steps 1, 12, 14, 18 and 23. The first row is COMSOL, the second row is the AI (random seed 42) predicting on its own, and the third row overlays the cracked cells: grey is in both, blue is only in COMSOL, red is only in the AI. The AI captures the crack growing out of both sides of the large hole and joining the small hole, but it starts growing a little earlier than in COMSOL and comes out wider.">範例（example）：雙孔板中表現最好的一案，不代表平均結果。橫向是第 1、12、14、18、23 步；第一列是 COMSOL，第二列是 AI（隨機種子 42）自己往下推，第三列把裂開的格子疊在一起：灰色是兩邊都有、藍色是只有 COMSOL 有、紅色是只有 AI 有。AI 抓到裂縫從大孔兩側長出來、再接到小孔，但比 COMSOL 早一點開始長，畫得也比較寬。</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="缺口加孔板：最好、中間、最差"><img src="fig-pred.png" alt="第 23 步裂縫的 COMSOL 模擬、pGFINN 預測與疊圖，IoU 最好、中間、最差三個案例" width="1184" height="1216" loading="lazy"></button>
-                <figcaption>缺口加孔板驗證組第 23 步：左為 COMSOL、中為 pGFINN、右為疊圖（綠色是模擬較強、洋紅是預測較強、灰到白是一致）。由上到下是 IoU 最好（0.73）、中間（0.62）與最差（0.21）的案例；最差的案例裡，預測的裂縫被孔吸過去，和模擬走了不同邊。</figcaption>
+                <button type="button" class="gimg" data-title="缺口加孔板：最好、中間、最差" data-en-tt="Notch-and-hole plate: best, middle, worst"><img src="fig-pred.png" alt="第 23 步裂縫的 COMSOL 模擬、pGFINN 預測與疊圖，IoU 最好、中間、最差三個案例" data-en-alt="Step-23 crack from COMSOL, the pGFINN prediction and their overlay, for the best, middle and worst IoU cases" width="1184" height="1216" loading="lazy"></button>
+                <figcaption data-en="Notch-and-hole validation set, step 23: left is COMSOL, middle is pGFINN, right is the overlay (green means stronger in the simulation, magenta stronger in the prediction, grey to white means they agree). From top to bottom are the best (IoU 0.73), middle (0.62) and worst (0.21) cases. In the worst case, the predicted crack gets drawn into the hole and goes around a different side from the simulation.">缺口加孔板驗證組第 23 步：左為 COMSOL、中為 pGFINN、右為疊圖（綠色是模擬較強、洋紅是預測較強、灰到白是一致）。由上到下是 IoU 最好（0.73）、中間（0.62）與最差（0.21）的案例；最差的案例裡，預測的裂縫被孔吸過去，和模擬走了不同邊。</figcaption>
               </figure>
             </div>
           </div>
-          <p class="cap">點圖片可以放大查看細節。</p>
+          <p class="cap" data-en="Click an image to see it full size.">點圖片可以放大查看細節。</p>
         </div>
         <div class="pbody">
           <div class="flowwrap">
-            <h4>研究流程</h4>
+            <h4 data-en="Research workflow">研究流程</h4>
             <ol class="flow">
-              <li><b>建模與驗證</b><span>用 COMSOL 相場法建 1 mm 方板，做一維桿、缺口板基準題和網格收斂測試。</span></li>
-              <li><b>批次模擬建資料集</b><span>用 MATLAB 自動化，建了三組各 400 案，累計約 1,400 計算小時。</span></li>
-              <li><b>訓練 AI</b><span>用 PyTorch 實作 pGFINN，從第一張圖自己往下推 23 步。</span></li>
-              <li><b>和模擬比對</b><span>看裂縫重疊度（IoU），並和「照抄第一張圖」比較。</span></li>
+              <li data-en="<b>Modeling and verification</b><span>Built a 1 mm square plate in COMSOL with the phase-field method, and ran a 1D bar benchmark, a notched-plate benchmark and mesh convergence tests.</span>"><b>建模與驗證</b><span>用 COMSOL 相場法建 1 mm 方板，做一維桿、缺口板基準題和網格收斂測試。</span></li>
+              <li data-en="<b>Batch simulations for the datasets</b><span>Automated with MATLAB: three datasets of 400 cases each, about 1,400 compute hours in total.</span>"><b>批次模擬建資料集</b><span>用 MATLAB 自動化，建了三組各 400 案，累計約 1,400 計算小時。</span></li>
+              <li data-en="<b>Training the AI</b><span>Implemented pGFINN in PyTorch; from the first frame it predicts 23 steps ahead on its own.</span>"><b>訓練 AI</b><span>用 PyTorch 實作 pGFINN，從第一張圖自己往下推 23 步。</span></li>
+              <li data-en="<b>Comparing with simulation</b><span>Measured crack overlap (IoU) and compared it with simply copying the first frame.</span>"><b>和模擬比對</b><span>看裂縫重疊度（IoU），並和「照抄第一張圖」比較。</span></li>
             </ol>
           </div>
           <div class="cols">
             <dl class="pdl">
-              <dt>研究問題</dt><dd>多孔材料裂開時，裂縫會被孔洞吸引、轉彎，把孔串起來，路徑隨孔的大小和位置而變。相場法有限元素模擬算得準，但每換一種孔洞配置就要重算一次，一案約 0.5～1.5 小時。</dd>
-              <dt>研究目標</dt><dd>訓練神經網路，只給孔洞配置和初始狀態，就預測整段裂縫怎麼長；目標是對沒看過的孔洞配置也能預測，當作快速的替代模型。</dd>
-              <dt>應用目標</dt><dd>板子或構件開孔會讓裂縫改走路徑；如果能快速預測裂縫怎麼走，就能更快比較不同的開孔配置。</dd>
-              <dt>數值模擬</dt><dd>用 COMSOL Multiphysics 的相場法斷裂模型，1 mm 方板，上緣以位移 0.013 mm × t 往上拉到斷裂（t 是載重進度，不是真實時間），底邊為滾支承、左下角為鉸支承。用 MATLAB LiveLink 寫批次流程，自動建模、求解、輸出，多條同時跑，失敗的自動重算。</dd>
-              <dt>模型驗證</dt><dd>一維桿、缺口板兩個基準題，加上網格與時間步收斂測試。</dd>
-              <dt>資料集</dt><dd>自己建了三組、各 400 案：雙孔板、缺口加一孔板、五孔板。五孔板另外存了位移、應變、應力場，並依孔洞配置分層切分訓練、驗證、測試組。</dd>
-              <dt>AI 模型</dt><dd>用 Python／PyTorch 實作指導團隊的 pGFINN（以 GENERIC 熱力學架構為基礎的神經網路），從第一張圖自己往下推 23 步，並以 U-Net 和「照抄前一步」作為對照。另外把前人的 TensorFlow 模型移植到 PyTorch，逐項比對結果。</dd>
-              <dt>使用工具</dt><dd><ul class="chips"><li>COMSOL 6.0</li><li>MATLAB</li><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li>Git／GitHub</li></ul><span class="org">和指導老師用 GitHub 的 PR、Issue 往返審查</span></dd>
+              <dt data-en="Problem">研究問題</dt><dd data-en="When a porous material cracks, the crack is drawn toward the holes, turns, and links them together, so its path changes with the size and position of the holes. Phase-field finite element simulation gets this right, but every new hole layout has to be computed again, at about 0.5–1.5 hours per case.">多孔材料裂開時，裂縫會被孔洞吸引、轉彎，把孔串起來，路徑隨孔的大小和位置而變。相場法有限元素模擬算得準，但每換一種孔洞配置就要重算一次，一案約 0.5～1.5 小時。</dd>
+              <dt data-en="Goal">研究目標</dt><dd data-en="Train a neural network that predicts the whole crack evolution from just the hole layout and the initial state. The aim is for it to work on hole layouts it has never seen, so it can serve as a fast surrogate model.">訓練神經網路，只給孔洞配置和初始狀態，就預測整段裂縫怎麼長；目標是對沒看過的孔洞配置也能預測，當作快速的替代模型。</dd>
+              <dt data-en="Application">應用目標</dt><dd data-en="Openings in a plate or member change the path a crack takes. If we can predict that path quickly, we can compare different opening layouts much faster.">板子或構件開孔會讓裂縫改走路徑；如果能快速預測裂縫怎麼走，就能更快比較不同的開孔配置。</dd>
+              <dt data-en="Simulation">數值模擬</dt><dd data-en="Phase-field fracture model in COMSOL Multiphysics on a 1 mm square plate. The top edge is pulled upward with displacement 0.013 mm × t until it fractures (t is load progress, not real time); the bottom edge sits on rollers and the bottom-left corner is pinned. I wrote a batch workflow with MATLAB LiveLink that builds, solves and exports each model automatically, runs several jobs at once, and reruns failed cases on its own.">用 COMSOL Multiphysics 的相場法斷裂模型，1 mm 方板，上緣以位移 0.013 mm × t 往上拉到斷裂（t 是載重進度，不是真實時間），底邊為滾支承、左下角為鉸支承。用 MATLAB LiveLink 寫批次流程，自動建模、求解、輸出，多條同時跑，失敗的自動重算。</dd>
+              <dt data-en="Verification">模型驗證</dt><dd data-en="Two benchmarks (a 1D bar and a notched plate), plus mesh and time-step convergence tests.">一維桿、缺口板兩個基準題，加上網格與時間步收斂測試。</dd>
+              <dt data-en="Datasets">資料集</dt><dd data-en="Three datasets I built myself, 400 cases each: two-hole plates, notch-plus-one-hole plates and five-hole plates. For the five-hole set I also saved the displacement, strain and stress fields, and split it into training, validation and test sets stratified by hole layout.">自己建了三組、各 400 案：雙孔板、缺口加一孔板、五孔板。五孔板另外存了位移、應變、應力場，並依孔洞配置分層切分訓練、驗證、測試組。</dd>
+              <dt data-en="AI model">AI 模型</dt><dd data-en="Implemented my advising team's pGFINN (a neural network built on the GENERIC thermodynamic framework) in Python/PyTorch. From the first frame it predicts 23 steps ahead on its own, with a U-Net and “copy the previous step” as baselines. I also ported an earlier TensorFlow model to PyTorch and checked the results item by item.">用 Python／PyTorch 實作指導團隊的 pGFINN（以 GENERIC 熱力學架構為基礎的神經網路），從第一張圖自己往下推 23 步，並以 U-Net 和「照抄前一步」作為對照。另外把前人的 TensorFlow 模型移植到 PyTorch，逐項比對結果。</dd>
+              <dt data-en="Tools">使用工具</dt><dd><ul class="chips"><li>COMSOL 6.0</li><li>MATLAB</li><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li data-en="Git/GitHub">Git／GitHub</li></ul><span class="org" data-en="Code reviews with my advisor through GitHub pull requests and issues">和指導老師用 GitHub 的 PR、Issue 往返審查</span></dd>
             </dl>
             <div class="panel">
-              <h4>目前發現</h4>
+              <h4 data-en="Findings so far">目前發現</h4>
               <ul class="finds">
-                <li>pGFINN 能從第一張圖自己推出整段裂縫的大致路徑：雙孔板測試組裂縫重疊度（IoU）約 0.45，缺口加孔板驗證組從原始設定的 0.26 提高到 0.59。<small>雙孔板 400 案全部算完，測試組 40 案在 3 個隨機種子下分別為 0.451、0.461、0.436，驗證組 0.42～0.44；對照組「照抄第一張圖」為 0。缺口加孔板的 0.59 為 3 個隨機種子的平均。</small></li>
-                <li>訓練時把資料鏡射翻轉，雙孔板裂縫重疊度提高約 0.07；缺口板則沒有明顯效果。<small>其他設定不變、只多加鏡射：驗證組 0.32 → 0.39、測試組 0.33 → 0.40。這組比較只練了一個隨機種子。</small></li>
-                <li>讓網路直接輸出應力、應變：在單一夾雜板的資料上，改成預測「上一步＋變化量」後，7 個分量有 6 個勝過「照抄前一步」，換隨機種子也能重現。</li>
+                <li data-en="Starting from the first frame, pGFINN works out the rough path of the whole crack on its own: crack overlap (IoU) is about 0.45 on the two-hole test set, and on the notch-and-hole validation set it went from 0.26 with the original settings to 0.59.<small>All 400 two-hole cases are done. The 40-case test set scored 0.451, 0.461 and 0.436 with 3 random seeds, and the validation set 0.42–0.44; the “copy the first frame” baseline scores 0. The notch-and-hole 0.59 is the mean of 3 random seeds.</small>">pGFINN 能從第一張圖自己推出整段裂縫的大致路徑：雙孔板測試組裂縫重疊度（IoU）約 0.45，缺口加孔板驗證組從原始設定的 0.26 提高到 0.59。<small>雙孔板 400 案全部算完，測試組 40 案在 3 個隨機種子下分別為 0.451、0.461、0.436，驗證組 0.42～0.44；對照組「照抄第一張圖」為 0。缺口加孔板的 0.59 為 3 個隨機種子的平均。</small></li>
+                <li data-en="Mirror-flipping the data during training raised crack overlap on the two-hole plates by about 0.07; it made no clear difference on the notched plates.<small>Same settings with only mirroring added: validation 0.32 → 0.39, test 0.33 → 0.40. This comparison used a single random seed.</small>">訓練時把資料鏡射翻轉，雙孔板裂縫重疊度提高約 0.07；缺口板則沒有明顯效果。<small>其他設定不變、只多加鏡射：驗證組 0.32 → 0.39、測試組 0.33 → 0.40。這組比較只練了一個隨機種子。</small></li>
+                <li data-en="Having the network output stress and strain directly: on single-inclusion plate data, after switching to predicting “previous step + change”, 6 of the 7 components beat “copy the previous step”, and the result held up with a different random seed.">讓網路直接輸出應力、應變：在單一夾雜板的資料上，改成預測「上一步＋變化量」後，7 個分量有 6 個勝過「照抄前一步」，換隨機種子也能重現。</li>
               </ul>
-              <h4>接下來要解決</h4>
+              <h4 data-en="Still to solve">接下來要解決</h4>
               <ul class="finds todo">
-                <li>預測的裂縫偏寬、偏淡</li>
-                <li>部分案例的裂縫走錯邊</li>
+                <li data-en="Predicted cracks come out too wide and too faint">預測的裂縫偏寬、偏淡</li>
+                <li data-en="In some cases the crack goes around the wrong side">部分案例的裂縫走錯邊</li>
               </ul>
             </div>
           </div>
@@ -419,106 +445,106 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
         </details>
       </article>
 
-      <div class="kind"><h3>大學專題</h3><span>已完成</span></div>
+      <div class="kind"><h3 data-en="Undergraduate project">大學專題</h3><span data-en="Completed">已完成</span></div>
       <article class="proj wide">
         <div class="brief">
           <div class="brief-pic gridpaper">
-            <button type="button" class="gimg" data-title="ETABS 3D 結構模型"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" width="671" height="433"></button>
+            <button type="button" class="gimg" data-title="ETABS 3D 結構模型" data-en-tt="ETABS 3D structural model"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" data-en-alt="3D structural model of a two-story RC school building in ETABS" width="671" height="433"></button>
           </div>
           <div class="pbody">
-            <h3>既有校舍的結構建模與耐震能力詳細評估</h3>
-            <p class="meta">臺北科技大學土木工程系，指導教授：宋裕祺 講座教授，2024 – 2025</p>
-            <p class="lead">以瑞埔國小標準試體校舍（兩層樓 RC 校舍）為對象，用 ETABS 建模分析、SERCB 做耐震能力詳細評估，結果顯示既有耐震能力不足，需要補強。</p>
+            <h3 data-en="Structural Modeling and Detailed Seismic Evaluation of an Existing School Building">既有校舍的結構建模與耐震能力詳細評估</h3>
+            <p class="meta" data-en="Department of Civil Engineering, National Taipei University of Technology. Advisor: Chair Prof. Yu-Chi Sung, 2024 – 2025">臺北科技大學土木工程系，指導教授：宋裕祺 講座教授，2024 – 2025</p>
+            <p class="lead" data-en="Working on the standard specimen school building of Ruipu Elementary School (a two-story RC school building), I modeled and analyzed it in ETABS and carried out a detailed seismic evaluation in SERCB. The results showed that its existing seismic capacity falls short and it needs retrofitting.">以瑞埔國小標準試體校舍（兩層樓 RC 校舍）為對象，用 ETABS 建模分析、SERCB 做耐震能力詳細評估，結果顯示既有耐震能力不足，需要補強。</p>
             <ul class="stats">
-              <li><b>4 套</b><span>學會的軟體：C#、ETABS、SERCB、SketchUp</span></li>
-              <li><b>2 層樓</b><span>評估對象：瑞埔國小標準試體校舍</span></li>
-              <li><b>0.386 秒</b><span>第一振態週期（ETABS 分析）</span></li>
-              <li><b>NG</b><span>性能檢核結果，需要耐震補強</span></li>
+              <li data-en="<b>4 tools</b><span>Software I learned: C#, ETABS, SERCB, SketchUp</span>"><b>4 套</b><span>學會的軟體：C#、ETABS、SERCB、SketchUp</span></li>
+              <li data-en="<b>2 stories</b><span>Subject: Ruipu Elementary School standard specimen building</span>"><b>2 層樓</b><span>評估對象：瑞埔國小標準試體校舍</span></li>
+              <li data-en="<b>0.386 s</b><span>First-mode period (ETABS analysis)</span>"><b>0.386 秒</b><span>第一振態週期（ETABS 分析）</span></li>
+              <li data-en="<b>NG</b><span>Performance check failed; seismic retrofit needed</span>"><b>NG</b><span>性能檢核結果，需要耐震補強</span></li>
             </ul>
           </div>
         </div>
         <details class="more">
-          <summary><span class="m-open">展開完整內容</span><span class="m-close">收合內容</span><small>各軟體的操作流程、評估結果、收穫與 10 張圖</small></summary>
+          <summary><span class="m-open" data-en="Show full details">展開完整內容</span><span class="m-close" data-en="Hide details">收合內容</span><small data-en="The workflow in each program, evaluation results, what I gained and 10 figures">各軟體的操作流程、評估結果、收穫與 10 張圖</small></summary>
         <div class="art gridpaper">
-          <div class="gtabs" role="tablist" aria-label="大學專題圖表">
-            <button type="button" role="tab" id="ugtab-etabs" aria-controls="ugfig-etabs" aria-selected="true">ETABS 建模（4 張）</button>
-            <button type="button" role="tab" id="ugtab-sercb" aria-controls="ugfig-sercb" aria-selected="false" tabindex="-1">SERCB 耐震評估（4 張）</button>
-            <button type="button" role="tab" id="ugtab-sketch" aria-controls="ugfig-sketch" aria-selected="false" tabindex="-1">SketchUp 高架橋（2 張）</button>
+          <div class="gtabs" role="tablist" aria-label="大學專題圖表" data-en-label="Undergraduate project figures">
+            <button type="button" role="tab" id="ugtab-etabs" aria-controls="ugfig-etabs" aria-selected="true" data-en="ETABS modeling (4)">ETABS 建模（4 張）</button>
+            <button type="button" role="tab" id="ugtab-sercb" aria-controls="ugfig-sercb" aria-selected="false" tabindex="-1" data-en="SERCB seismic evaluation (4)">SERCB 耐震評估（4 張）</button>
+            <button type="button" role="tab" id="ugtab-sketch" aria-controls="ugfig-sketch" aria-selected="false" tabindex="-1" data-en="SketchUp viaduct (2)">SketchUp 高架橋（2 張）</button>
           </div>
           <div class="gfig" id="ugfig-etabs" role="tabpanel" aria-labelledby="ugtab-etabs">
             <div class="ggrid">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="參考圖說"><img src="ug-ref.png" alt="瑞埔國小標準試體的平面圖、立面圖與梁柱配筋表" width="1170" height="633" loading="lazy"></button>
-                <figcaption>參考圖說：瑞埔國小標準試體的平面、立面與梁柱配筋表</figcaption>
+                <button type="button" class="gimg" data-title="參考圖說" data-en-tt="Reference drawings"><img src="ug-ref.png" alt="瑞埔國小標準試體的平面圖、立面圖與梁柱配筋表" data-en-alt="Plan, elevation and beam and column reinforcement schedule of the Ruipu Elementary School specimen" width="1170" height="633" loading="lazy"></button>
+                <figcaption data-en="Reference drawings: plan, elevation and beam and column reinforcement schedule of the Ruipu Elementary School specimen">參考圖說：瑞埔國小標準試體的平面、立面與梁柱配筋表</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="斷面與參數設定"><img src="ug-sect.png" alt="ETABS 中柱、梁、樓板、矮牆斷面，以及剛性樓板與剛性域的設定視窗" width="1170" height="566" loading="lazy"></button>
-                <figcaption>設定柱、梁、樓板、矮牆斷面，並指定剛性樓板與剛性域</figcaption>
+                <button type="button" class="gimg" data-title="斷面與參數設定" data-en-tt="Sections and settings"><img src="ug-sect.png" alt="ETABS 中柱、梁、樓板、矮牆斷面，以及剛性樓板與剛性域的設定視窗" data-en-alt="ETABS dialogs for column, beam, slab and low-wall sections, and for rigid diaphragm and rigid end zone settings" width="1170" height="566" loading="lazy"></button>
+                <figcaption data-en="Defining column, beam, slab and low-wall sections, and assigning rigid diaphragms and rigid end zones">設定柱、梁、樓板、矮牆斷面，並指定剛性樓板與剛性域</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="3D 結構模型"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" width="671" height="433" loading="lazy"></button>
-                <figcaption>完成的兩層樓 RC 校舍 3D 結構模型</figcaption>
+                <button type="button" class="gimg" data-title="3D 結構模型" data-en-tt="3D structural model"><img src="ug-model.png" alt="ETABS 建立的兩層樓 RC 校舍 3D 結構模型" data-en-alt="3D structural model of a two-story RC school building in ETABS" width="671" height="433" loading="lazy"></button>
+                <figcaption data-en="The finished 3D structural model of the two-story RC school building">完成的兩層樓 RC 校舍 3D 結構模型</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="分析結果"><img src="ug-run.png" alt="ETABS 分析後的變形圖、支承反力表與振態週期表" width="1170" height="595" loading="lazy"></button>
-                <figcaption>執行分析後，檢查變形、支承反力與振態週期</figcaption>
+                <button type="button" class="gimg" data-title="分析結果" data-en-tt="Analysis results"><img src="ug-run.png" alt="ETABS 分析後的變形圖、支承反力表與振態週期表" data-en-alt="ETABS deformed shape, support reaction table and modal period table after the analysis" width="1170" height="595" loading="lazy"></button>
+                <figcaption data-en="After running the analysis: checking deformation, support reactions and modal periods">執行分析後，檢查變形、支承反力與振態週期</figcaption>
               </figure>
             </div>
           </div>
           <div class="gfig" id="ugfig-sercb" role="tabpanel" aria-labelledby="ugtab-sercb" hidden>
             <div class="ggrid">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="斷面與配筋"><img src="ug-rebar.png" alt="SERCB 中輸入斷面資料、設定斷面材料與計算配筋位置的視窗" width="1170" height="639" loading="lazy"></button>
-                <figcaption>在 SERCB 輸入斷面資料、設定材料，並計算配筋位置</figcaption>
+                <button type="button" class="gimg" data-title="斷面與配筋" data-en-tt="Sections and reinforcement"><img src="ug-rebar.png" alt="SERCB 中輸入斷面資料、設定斷面材料與計算配筋位置的視窗" data-en-alt="SERCB dialogs for entering section data, setting section materials and calculating rebar positions" width="1170" height="639" loading="lazy"></button>
+                <figcaption data-en="Entering section data and materials in SERCB and calculating rebar positions">在 SERCB 輸入斷面資料、設定材料，並計算配筋位置</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="側推分析"><img src="ug-push.png" alt="側推分析的容量曲線與容量震譜" width="1170" height="547" loading="lazy"></button>
-                <figcaption>側推分析（Pushover）的容量曲線與容量震譜</figcaption>
+                <button type="button" class="gimg" data-title="側推分析" data-en-tt="Pushover analysis"><img src="ug-push.png" alt="側推分析的容量曲線與容量震譜" data-en-alt="Capacity curve and capacity spectrum from the pushover analysis" width="1170" height="547" loading="lazy"></button>
+                <figcaption data-en="Capacity curve and capacity spectrum from the pushover analysis">側推分析（Pushover）的容量曲線與容量震譜</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="性能目標"><img src="ug-perf.png" alt="SERCB 性能目標圖，PLA、PLB、PLC 三個性能水準與設計需求線" width="876" height="503" loading="lazy"></button>
-                <figcaption>性能目標：設計需求超過 PLC，結果為 NG</figcaption>
+                <button type="button" class="gimg" data-title="性能目標" data-en-tt="Performance objectives"><img src="ug-perf.png" alt="SERCB 性能目標圖，PLA、PLB、PLC 三個性能水準與設計需求線" data-en-alt="SERCB performance objective chart with the PLA, PLB and PLC performance levels and the design demand line" width="876" height="503" loading="lazy"></button>
+                <figcaption data-en="Performance objectives: the design demand exceeds PLC, so the result is NG">性能目標：設計需求超過 PLC，結果為 NG</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="性能檢核"><img src="ug-check.png" alt="SERCB 性能檢核圖，Sd_II 超過 PLB 星號點" width="813" height="458" loading="lazy"></button>
-                <figcaption>性能檢核：Sd_II 超過 PLB*，結果為 NG</figcaption>
+                <button type="button" class="gimg" data-title="性能檢核" data-en-tt="Performance check"><img src="ug-check.png" alt="SERCB 性能檢核圖，Sd_II 超過 PLB 星號點" data-en-alt="SERCB performance check chart: Sd_II exceeds the PLB* point" width="813" height="458" loading="lazy"></button>
+                <figcaption data-en="Performance check: Sd_II exceeds PLB*, so the result is NG">性能檢核：Sd_II 超過 PLB*，結果為 NG</figcaption>
               </figure>
             </div>
-            <p class="gsum">評估條件為花蓮市、第一類地盤、用途係數 I = 1.25。性能目標與性能檢核都是 NG，代表這棟校舍的既有耐震能力不足，需要補強。</p>
+            <p class="gsum" data-en="Evaluation conditions: Hualien City, Type 1 site, importance factor I = 1.25. Both the performance objective and the performance check came out NG, which means the building's existing seismic capacity falls short and it needs retrofitting.">評估條件為花蓮市、第一類地盤、用途係數 I = 1.25。性能目標與性能檢核都是 NG，代表這棟校舍的既有耐震能力不足，需要補強。</p>
           </div>
           <div class="gfig" id="ugfig-sketch" role="tabpanel" aria-labelledby="ugtab-sketch" hidden>
             <div class="ggrid">
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="高架橋 3D 模型"><img src="ug-bridge.png" alt="SketchUp 建立的高架橋模型透視圖與仰視圖" width="1127" height="618" loading="lazy"></button>
-                <figcaption>高架橋 3D 模型：彎道匝道、箱型梁與橋墩</figcaption>
+                <button type="button" class="gimg" data-title="高架橋 3D 模型" data-en-tt="Viaduct 3D model"><img src="ug-bridge.png" alt="SketchUp 建立的高架橋模型透視圖與仰視圖" data-en-alt="Perspective and bottom views of a viaduct modeled in SketchUp" width="1127" height="618" loading="lazy"></button>
+                <figcaption data-en="Viaduct 3D model: a curved ramp, box girders and piers">高架橋 3D 模型：彎道匝道、箱型梁與橋墩</figcaption>
               </figure>
               <figure class="gitem">
-                <button type="button" class="gimg" data-title="高架橋平面與立面"><img src="ug-elev.png" alt="SketchUp 高架橋模型的平面圖與兩個立面圖" width="1133" height="418" loading="lazy"></button>
-                <figcaption>高架橋的平面與立面</figcaption>
+                <button type="button" class="gimg" data-title="高架橋平面與立面" data-en-tt="Viaduct plan and elevations"><img src="ug-elev.png" alt="SketchUp 高架橋模型的平面圖與兩個立面圖" data-en-alt="Plan and two elevations of the SketchUp viaduct model" width="1133" height="418" loading="lazy"></button>
+                <figcaption data-en="Plan and elevations of the viaduct">高架橋的平面與立面</figcaption>
               </figure>
             </div>
           </div>
-          <p class="cap">點圖片可以放大查看細節。</p>
+          <p class="cap" data-en="Click an image to see it full size.">點圖片可以放大查看細節。</p>
         </div>
         <div class="pbody">
           <div class="cols">
             <dl class="pdl">
-              <dt>專題內容</dt><dd>在指導教授的研究室學習結構分析與耐震評估的軟體流程，以瑞埔國小的標準試體校舍（兩層樓 RC 校舍）為對象，從建模、分析一路做到耐震能力詳細評估。</dd>
-              <dt>C# 程式</dt><dd>學習 C# 基礎語法，寫出矩陣輸入與運算的小程式，熟悉結構分析背後的矩陣計算。</dd>
-              <dt>ETABS 建模</dt><dd>依照圖說建立格線，設定材料與梁、柱、樓板、矮牆斷面，指定剛性樓板與剛性域；加入地震力後執行分析，檢查支承反力與振態週期。</dd>
-              <dt>SERCB 評估</dt><dd>把 ETABS 模型匯入 SERCB（耐震能力詳細評估系統），建立牆柱斷面與配筋、分析磚牆與 RC 牆、計算 PM 曲線與構件塑鉸性質，再回到 ETABS 做側推分析（Pushover），最後在容量震譜上比對性能目標。</dd>
-              <dt>SketchUp</dt><dd>練習 3D 建模，做出含彎道匝道、箱型梁與橋墩的高架橋模型。</dd>
+              <dt data-en="Overview">專題內容</dt><dd data-en="In my advisor's lab I learned the software workflow for structural analysis and seismic evaluation. Working on the Ruipu Elementary School standard specimen (a two-story RC school building), I went all the way from modeling and analysis to a detailed seismic evaluation.">在指導教授的研究室學習結構分析與耐震評估的軟體流程，以瑞埔國小的標準試體校舍（兩層樓 RC 校舍）為對象，從建模、分析一路做到耐震能力詳細評估。</dd>
+              <dt data-en="C# programming">C# 程式</dt><dd data-en="Learned basic C# syntax and wrote small programs for matrix input and operations, to get familiar with the matrix calculations behind structural analysis.">學習 C# 基礎語法，寫出矩陣輸入與運算的小程式，熟悉結構分析背後的矩陣計算。</dd>
+              <dt data-en="ETABS modeling">ETABS 建模</dt><dd data-en="Set up grid lines from the drawings, defined materials and beam, column, slab and low-wall sections, and assigned rigid diaphragms and rigid end zones. Then I added seismic loads, ran the analysis, and checked the support reactions and modal periods.">依照圖說建立格線，設定材料與梁、柱、樓板、矮牆斷面，指定剛性樓板與剛性域；加入地震力後執行分析，檢查支承反力與振態週期。</dd>
+              <dt data-en="SERCB evaluation">SERCB 評估</dt><dd data-en="Imported the ETABS model into SERCB (a program for detailed seismic evaluation), built wall and column sections with their reinforcement, analyzed brick and RC walls, and computed P-M curves and member plastic hinge properties. Then I went back to ETABS for a pushover analysis, and finally compared the result with the performance objectives on the capacity spectrum.">把 ETABS 模型匯入 SERCB（耐震能力詳細評估系統），建立牆柱斷面與配筋、分析磚牆與 RC 牆、計算 PM 曲線與構件塑鉸性質，再回到 ETABS 做側推分析（Pushover），最後在容量震譜上比對性能目標。</dd>
+              <dt>SketchUp</dt><dd data-en="Practiced 3D modeling by building a viaduct with a curved ramp, box girders and piers.">練習 3D 建模，做出含彎道匝道、箱型梁與橋墩的高架橋模型。</dd>
             </dl>
             <div class="panel">
-              <h4>評估結果</h4>
+              <h4 data-en="Evaluation result">評估結果</h4>
               <ul class="finds">
-                <li>以花蓮市、第一類地盤、用途係數 I = 1.25 的條件檢核，這棟校舍的性能目標與性能檢核都是 NG，代表既有耐震能力不足，需要補強。</li>
+                <li data-en="Checked for Hualien City, a Type 1 site and importance factor I = 1.25, the building is NG on both the performance objective and the performance check, so its existing seismic capacity falls short and it needs retrofitting.">以花蓮市、第一類地盤、用途係數 I = 1.25 的條件檢核，這棟校舍的性能目標與性能檢核都是 NG，代表既有耐震能力不足，需要補強。</li>
               </ul>
-              <h4>我的收穫</h4>
+              <h4 data-en="What I gained">我的收穫</h4>
               <ul class="finds">
-                <li>完整走過一次既有建築的耐震評估：建模、靜力分析、側推分析到性能檢核</li>
-                <li>熟悉 ETABS 與 SERCB 之間用 e2k 檔來回匯出、匯入的流程</li>
-                <li>看得懂振態週期、容量曲線和性能點代表的意義</li>
+                <li data-en="Went through a complete seismic evaluation of an existing building: modeling, static analysis, pushover analysis and performance check">完整走過一次既有建築的耐震評估：建模、靜力分析、側推分析到性能檢核</li>
+                <li data-en="Got comfortable exporting and importing models between ETABS and SERCB with e2k files">熟悉 ETABS 與 SERCB 之間用 e2k 檔來回匯出、匯入的流程</li>
+                <li data-en="Understand what modal periods, capacity curves and performance points mean">看得懂振態週期、容量曲線和性能點代表的意義</li>
               </ul>
             </div>
           </div>
@@ -532,22 +558,22 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 
 <section class="band" id="study">
   <div class="wrap">
-    <div class="head"><h2>學歷</h2></div>
+    <div class="head"><h2 data-en="Education">學歷</h2></div>
     <div class="xp">
       <div class="when">2025.09 – 2027.06</div>
       <div class="what">
-        <h3>國立成功大學 土木工程學系 碩士班</h3>
-        <p class="org">結構工程組，日間部就讀中</p>
+        <h3 data-en="National Cheng Kung University, M.S. in Civil Engineering">國立成功大學 土木工程學系 碩士班</h3>
+        <p class="org" data-en="Structural Engineering, full-time, in progress">結構工程組，日間部就讀中</p>
       </div>
       <div class="when">2021.09 – 2025.06</div>
       <div class="what">
-        <h3>國立臺北科技大學 土木工程學系</h3>
-        <p class="org">學士</p>
+        <h3 data-en="National Taipei University of Technology, Department of Civil Engineering">國立臺北科技大學 土木工程學系</h3>
+        <p class="org" data-en="Bachelor's degree">學士</p>
       </div>
       <div class="when">2018.08 – 2021.06</div>
       <div class="what">
-        <h3>國立嘉義高工 建築科</h3>
-        <p class="org">高職畢業</p>
+        <h3 data-en="National Chiayi Industrial Vocational High School, Department of Architecture">國立嘉義高工 建築科</h3>
+        <p class="org" data-en="Graduated">高職畢業</p>
       </div>
     </div>
   </div>
@@ -555,45 +581,45 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 
 <section class="band con" id="exp">
   <div class="wrap">
-    <div class="head"><h2>工作與實習經歷</h2></div>
+    <div class="head"><h2 data-en="Work and internship experience">工作與實習經歷</h2></div>
     <div class="xp">
       <div class="when">2025.10 – 2026.03</div>
       <div class="what">
-        <h3>國中數學輔導老師</h3>
-        <p class="org">臺中市私立冠成文理短期補習班，台南市東區</p>
-        <p class="do">擔任數理補習班老師，輔導國中數學。</p>
+        <h3 data-en="Junior high math tutor">國中數學輔導老師</h3>
+        <p class="org" data-en="Guancheng Cram School, East District, Tainan">臺中市私立冠成文理短期補習班，台南市東區</p>
+        <p class="do" data-en="Teach at a math and science cram school, tutoring junior high students in math.">擔任數理補習班老師，輔導國中數學。</p>
       </div>
       <div class="when">2025.10 – 2025.12</div>
       <div class="what">
-        <h3>工讀生</h3>
-        <p class="org">侯坤池建築師事務所，台南市東區</p>
+        <h3 data-en="Part-time assistant">工讀生</h3>
+        <p class="org" data-en="Hou Kun-Chih Architects, East District, Tainan">侯坤池建築師事務所，台南市東區</p>
       </div>
       <div class="when">2023.06 – 2023.08</div>
       <div class="what">
-        <h3>公務助理（實習）</h3>
-        <p class="org">地樺營造事業股份有限公司，台北市大同區</p>
+        <h3 data-en="Site office assistant (intern)">公務助理（實習）</h3>
+        <p class="org" data-en="Dihua Construction Co., Ltd., Datong District, Taipei">地樺營造事業股份有限公司，台北市大同區</p>
         <ul>
-          <li>協助工地主任與主管交辦事項</li>
-          <li>協助複驗屋</li>
-          <li>電腦建檔、歸檔相關作業</li>
-          <li>用 Excel、PowerPoint、Word 製作報告</li>
-          <li>維持環境整潔</li>
+          <li data-en="Handled tasks assigned by the site manager and supervisors">協助工地主任與主管交辦事項</li>
+          <li data-en="Helped with unit re-inspections">協助複驗屋</li>
+          <li data-en="Data entry and filing">電腦建檔、歸檔相關作業</li>
+          <li data-en="Prepared reports in Excel, PowerPoint and Word">用 Excel、PowerPoint、Word 製作報告</li>
+          <li data-en="Kept the workspace clean and tidy">維持環境整潔</li>
         </ul>
       </div>
       <div class="when">2021.07 – 2021.08</div>
       <div class="what">
-        <h3>行政工讀</h3>
-        <p class="org">新竹物流股份有限公司，台北市士林區</p>
+        <h3 data-en="Administrative assistant (part-time)">行政工讀</h3>
+        <p class="org" data-en="Hsinchu Transport Co., Ltd. (HCT Logistics), Shilin District, Taipei">新竹物流股份有限公司，台北市士林區</p>
         <ul>
-          <li>協助主管交辦事項</li>
-          <li>掃描送貨員包裹條碼</li>
-          <li>電腦建檔、歸檔相關作業</li>
+          <li data-en="Handled tasks assigned by supervisors">協助主管交辦事項</li>
+          <li data-en="Scanned parcel barcodes for delivery drivers">掃描送貨員包裹條碼</li>
+          <li data-en="Data entry and filing">電腦建檔、歸檔相關作業</li>
         </ul>
       </div>
-      <div class="when">在學期間</div>
+      <div class="when" data-en="While in school">在學期間</div>
       <div class="what">
-        <h3>系學會公關長</h3>
-        <p class="org">系學會</p>
+        <h3 data-en="Head of public relations">系學會公關長</h3>
+        <p class="org" data-en="Department student association">系學會</p>
       </div>
     </div>
   </div>
@@ -602,41 +628,41 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 <section class="band">
   <div class="wrap se">
     <div id="skills">
-      <div class="head"><h2>技能</h2></div>
+      <div class="head"><h2 data-en="Skills">技能</h2></div>
       <div class="groups">
         <div>
-          <h3>工程軟體</h3>
+          <h3 data-en="Engineering software">工程軟體</h3>
           <ul class="chips"><li>AutoCAD</li><li>SketchUp</li><li>ETABS</li><li>SERCB</li><li>COMSOL Multiphysics</li></ul>
         </div>
         <div>
-          <h3>程式與 AI</h3>
-          <ul class="chips"><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li>MATLAB</li><li>C#</li><li>Git／GitHub</li></ul>
+          <h3 data-en="Programming and AI">程式與 AI</h3>
+          <ul class="chips"><li>Python</li><li>PyTorch</li><li>NumPy</li><li>SciPy</li><li>MATLAB</li><li>C#</li><li data-en="Git/GitHub">Git／GitHub</li></ul>
         </div>
         <div>
-          <h3>研究方法</h3>
-          <ul class="chips"><li>相場法斷裂模擬</li><li>網格與時間步收斂測試</li><li>批次模擬自動化</li><li>神經網路替代模型</li><li>側推分析（Pushover）</li><li>耐震能力詳細評估</li></ul>
+          <h3 data-en="Research methods">研究方法</h3>
+          <ul class="chips"><li data-en="Phase-field fracture simulation">相場法斷裂模擬</li><li data-en="Mesh and time-step convergence tests">網格與時間步收斂測試</li><li data-en="Batch simulation automation">批次模擬自動化</li><li data-en="Neural network surrogate models">神經網路替代模型</li><li data-en="Pushover analysis">側推分析（Pushover）</li><li data-en="Detailed seismic evaluation">耐震能力詳細評估</li></ul>
         </div>
         <div>
-          <h3>文書與簡報</h3>
-          <ul class="chips"><li>Word</li><li>Excel</li><li>PowerPoint</li><li>文書處理與排版</li><li>提案與簡報</li><li>文件資料處理與整合</li></ul>
+          <h3 data-en="Office and presentations">文書與簡報</h3>
+          <ul class="chips"><li>Word</li><li>Excel</li><li>PowerPoint</li><li data-en="Document editing and layout">文書處理與排版</li><li data-en="Proposals and presentations">提案與簡報</li><li data-en="Organizing and combining documents">文件資料處理與整合</li></ul>
         </div>
         <div>
-          <h3>數學</h3>
-          <ul class="chips"><li>基礎微積分</li><li>高職力學</li><li>國中、國小數學</li></ul>
+          <h3 data-en="Math">數學</h3>
+          <ul class="chips"><li data-en="Basic calculus">基礎微積分</li><li data-en="Vocational high school mechanics">高職力學</li><li data-en="Junior high and elementary math">國中、國小數學</li></ul>
         </div>
         <div>
-          <h3>語言</h3>
-          <ul class="chips"><li>英文（略懂）</li><li>台語（中等）</li></ul>
+          <h3 data-en="Languages">語言</h3>
+          <ul class="chips" data-en="<li>Mandarin (native)</li><li>Taiwanese (intermediate)</li><li>English (basic)</li>"><li>英文（略懂）</li><li>台語（中等）</li></ul>
         </div>
       </div>
     </div>
     <div id="certs">
-      <div class="head"><h2>證照</h2></div>
+      <div class="head"><h2 data-en="Certifications">證照</h2></div>
       <ul class="certs">
-        <li><b>乙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
-        <li><b>丙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
-        <li><b>丙級電腦輔助建築製圖技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
-        <li><b>全民英檢初級（GEPT）</b><small>財團法人語言訓練測驗中心</small></li>
+        <li data-en="<b>Surveying Technician, Level B</b><small>Skill Evaluation Center, Workforce Development Agency, Ministry of Labor</small>"><b>乙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li data-en="<b>Surveying Technician, Level C</b><small>Skill Evaluation Center, Workforce Development Agency, Ministry of Labor</small>"><b>丙級測量技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li data-en="<b>Computer-Aided Architectural Drafting Technician, Level C</b><small>Skill Evaluation Center, Workforce Development Agency, Ministry of Labor</small>"><b>丙級電腦輔助建築製圖技術士</b><small>勞動部勞動力發展署技能檢定中心</small></li>
+        <li data-en="<b>GEPT, Elementary Level</b><small>Language Training and Testing Center (LTTC)</small>"><b>全民英檢初級（GEPT）</b><small>財團法人語言訓練測驗中心</small></li>
       </ul>
     </div>
   </div>
@@ -644,37 +670,118 @@ footer{background:#1b1d1f;color:#d8d6d0;font-size:14px;padding:18px max(5vw,16px
 
 <section class="band contact" id="contact">
   <div class="wrap">
-    <div class="head"><h2>想聊聊嗎？</h2></div>
-    <p>不論是實習、工讀或正職機會，都歡迎來信。</p>
+    <div class="head"><h2 data-en="Let's talk">想聊聊嗎？</h2></div>
+    <p data-en="Whether it's an internship, a part-time job or a full-time position, I'd be glad to hear from you.">不論是實習、工讀或正職機會，都歡迎來信。</p>
     <div class="mailrow">
       <span class="mail" id="mail">lucy123312@gmail.com</span>
       <button class="btn" id="copy" type="button">複製 Email</button>
     </div>
     <div class="links">
-      <a href="mailto:lucy123312@gmail.com">寄信給我</a>
+      <a href="mailto:lucy123312@gmail.com" data-en="Send me an email">寄信給我</a>
     </div>
   </div>
 </section>
 
-<footer>© 2026 林歆凌　最後更新：2026 年 11 月</footer>
+<footer data-en="© 2026 Xin-Ling Lin&amp;emsp;Last updated November 2026">© 2026 林歆凌　最後更新：2026 年 11 月</footer>
 
 <dialog class="lb" id="lb" aria-labelledby="lbt">
-  <div class="lbbar"><span id="lbt"></span><button type="button" id="lbclose">關閉</button></div>
+  <div class="lbbar"><span id="lbt"></span><button type="button" id="lbclose" data-en="Close">關閉</button></div>
   <div class="lbscroll"><img id="lbimg" alt=""></div>
 </dialog>
 
 <script>
 {
+  const root = document.documentElement;
+  const T = {
+    zh: {
+      title: '林歆凌個人網站',
+      desc: '林歆凌，成功大學土木工程研究所結構工程組碩士生。碩士論文以神經網路預測多孔板裂縫演化，大學專題做既有校舍耐震能力詳細評估。',
+      copy: '複製 Email', copied: '已複製', copyFail: '請手動複製上面的地址',
+      langBtn: 'EN', langBtnLang: 'en', langLabel: 'Switch to English',
+      toDark: '切換成深色模式', toLight: '切換成淺色模式'
+    },
+    en: {
+      title: 'Xin-Ling Lin – Personal Website',
+      desc: 'Xin-Ling Lin, M.S. student in structural engineering at National Cheng Kung University. Thesis: predicting crack evolution in porous plates with a neural network. Undergraduate project: detailed seismic evaluation of an existing school building.',
+      copy: 'Copy email', copied: 'Copied', copyFail: 'Please copy the address above',
+      langBtn: '中文', langBtnLang: 'zh-Hant', langLabel: '切換成中文',
+      toDark: 'Switch to dark mode', toLight: 'Switch to light mode'
+    }
+  };
+  const ATTRS = { enAlt: 'alt', enLabel: 'aria-label', enTt: 'data-title', enLang: 'lang' };
+  const SEL = '[data-en],[data-en-alt],[data-en-label],[data-en-tt],[data-en-lang]';
+  const zh = new Map();
+  const desc = document.querySelector('meta[name=description]');
+  const langBtn = document.getElementById('langbtn');
+  const themeBtn = document.getElementById('themebtn');
   const copy = document.getElementById('copy');
   const mail = document.getElementById('mail');
+  const dark = matchMedia('(prefers-color-scheme: dark)');
+  let lang = root.lang === 'en' ? 'en' : 'zh';
+
+  const save = (k, v) => { try { localStorage.setItem(k, v); } catch (err) {} };
+  const isDark = () => (root.dataset.theme || (dark.matches ? 'dark' : 'light')) === 'dark';
+  const showTheme = () => {
+    const label = isDark() ? T[lang].toLight : T[lang].toDark;
+    themeBtn.setAttribute('aria-label', label);
+    themeBtn.title = label;
+  };
+
+  const applyLang = l => {
+    lang = l;
+    root.lang = l === 'en' ? 'en' : 'zh-Hant';
+    document.querySelectorAll(SEL).forEach(el => {
+      if (!zh.has(el)) {
+        const s = {};
+        if ('en' in el.dataset) s.html = el.innerHTML;
+        for (const k in ATTRS) if (k in el.dataset) s[k] = el.getAttribute(ATTRS[k]);
+        zh.set(el, s);
+      }
+      const s = zh.get(el);
+      if ('html' in s) el.innerHTML = l === 'en' ? el.dataset.en : s.html;
+      for (const k in ATTRS) {
+        if (!(k in el.dataset)) continue;
+        const v = l === 'en' ? el.dataset[k] : s[k];
+        if (v === null) el.removeAttribute(ATTRS[k]); else el.setAttribute(ATTRS[k], v);
+      }
+    });
+    document.title = T[l].title;
+    desc.content = T[l].desc;
+    langBtn.textContent = T[l].langBtn;
+    langBtn.lang = T[l].langBtnLang;
+    langBtn.setAttribute('aria-label', T[l].langLabel);
+    langBtn.title = T[l].langLabel;
+    copy.textContent = T[l].copy;
+    showTheme();
+  };
+
+  if (lang === 'en') applyLang('en'); else showTheme();
+
+  langBtn.addEventListener('click', () => {
+    const l = lang === 'en' ? 'zh' : 'en';
+    applyLang(l);
+    save('lang', l);
+    const u = new URL(location.href);
+    if (l === 'en') u.searchParams.set('lang', 'en'); else u.searchParams.delete('lang');
+    history.replaceState(null, '', u);
+  });
+
+  themeBtn.addEventListener('click', () => {
+    const t = isDark() ? 'light' : 'dark';
+    root.dataset.theme = t;
+    save('theme', t);
+    showTheme();
+  });
+  dark.addEventListener('change', showTheme);
+
   copy.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(mail.textContent.trim());
-      copy.textContent = '已複製';
+      copy.textContent = T[lang].copied;
     } catch (err) {
-      copy.textContent = '請手動複製上面的地址';
+      copy.textContent = T[lang].copyFail;
     }
-    setTimeout(() => { copy.textContent = '複製 Email'; }, 2200);
+    setTimeout(() => { copy.textContent = T[lang].copy; }, 2200);
   });
 
   document.querySelectorAll('.gtabs').forEach(list => {
